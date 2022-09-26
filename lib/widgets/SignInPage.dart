@@ -6,16 +6,14 @@ class SignInPage extends StatelessWidget {
   SignInPage({super.key});
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ["email", "profile"],
+    scopes: ["email"],
     hostedDomain: "lunatech.nl"
   );
 
   Future<void> _handleSignIn(BuildContext context) async {
     try {
-      await _googleSignIn.signIn();
-      Navigator.push(context, MaterialPageRoute(builder: (ctx) => RootWidget(googleSignIn: _googleSignIn))).then((value) =>
-        _googleSignIn.signOut()
-      );
+      await _googleSignIn.signIn().then((response) =>
+          Navigator.push(context, MaterialPageRoute(builder: (ctx) => RootWidget(googleSignIn: _googleSignIn))));
     } catch (error) {
       print(error);
     }
