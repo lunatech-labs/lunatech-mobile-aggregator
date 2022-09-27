@@ -4,10 +4,12 @@ import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+import '../widgets/LunatechDrawer.dart';
 
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  static const String title = "LunatechApp";
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -30,9 +32,8 @@ class HomePageState extends State<HomePage> {
     loadData();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: const Text(HomePage.title)),
+      drawer: LunatechDrawer(),
       body: Center(
         child: ListView(
           children: [

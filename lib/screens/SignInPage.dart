@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
-import 'package:flutter_apps/widgets/HomePage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_apps/screens/HomePage.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -11,7 +10,7 @@ class SignInPage extends StatelessWidget {
       await GoogleService().signIn().then((_) =>
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const HomePage(title: "This is a shitty app")),
+              MaterialPageRoute(builder: (_) => const HomePage()),
               (route) => false));
     } catch (error) {
       print(error);
