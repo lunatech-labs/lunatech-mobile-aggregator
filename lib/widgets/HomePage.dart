@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_apps/model/EmployeeList.dart';
+import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
-import 'package:flutter_apps/widgets/RootWidget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,29 +16,18 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   late GoogleSignIn googleSignIn;
 
-  GoogleSignInAuthentication? authentication;
-  String? employees;
+  String? accessToken;
+  Iterable<EmployeeList>? employees;
 
-  void loadData(BuildContext context) async {
-    var rootServices = RootWidget
-        .of(context)
-        .services;
-    authentication = await rootServices.authentication();
-    VacationAppService vacationAppService = await rootServices
-        .vacationAppService();
-    employees = await vacationAppService.getEmployees().then((employeesJson) {
-      return employeesJson.map((employee) => employee["name"])
-        .join("\n");
-    });
+  void loadData() async {
+    accessToken = await GoogleService().getAccessToken();
+    employees = await VacationAppService().getEmployees();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    googleSignIn = RootWidget
-        .of(context)
-        .googleSignIn;
-    loadData(context);
+    loadData();
 
     return Scaffold(
       appBar: AppBar(
@@ -46,11 +36,9 @@ class HomePageState extends State<HomePage> {
       body: Center(
         child: ListView(
           children: [
-            Text("Current user: ${googleSignIn.currentUser!.displayName}"),
-            Text("Logged with email: ${googleSignIn.currentUser!.email}"),
-            SelectableText(
-                "Authentication token: ${authentication?.accessToken ??
-                    "Loading..."}"),
+            Text("Current user: ${GoogleService().getAccount().displayName}"),
+            Text("Logged with email: ${GoogleService().getAccount().email}"),
+            SelectableText("Authentication token: ${accessToken ?? "Loading..."}"),
             Text("Employees: ${employees ?? "Loading..."}")
           ],
         ),

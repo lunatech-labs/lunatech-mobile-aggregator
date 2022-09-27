@@ -1,30 +1,50 @@
 import 'dart:convert';
 
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_apps/model/EmployeeDetail.dart';
+import 'package:flutter_apps/model/EmployeeList.dart';
+import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:http/http.dart' as http;
 
 class VacationAppService {
-  VacationAppService(this.authentication);
-
   static const String _vacationUrl = "vacation.lunatech.nl";
+  static const Map<String, String> _defaultQueryParam = {};
 
-  final GoogleSignInAuthentication authentication;
-  String? vacationToken;
+  static final VacationAppService _vacationAppService = VacationAppService._internal();
 
-  Future<void> authenticate() async {
-    String accessToken = authentication.accessToken!;
+  Future<String> vacationToken;
 
-    final queryParameters = {"accessToken": accessToken};
-    Uri uri = Uri.https(_vacationUrl, "/api/authenticate", queryParameters);
-    var token = await http.get(uri).then((response) => response.body);
+  VacationAppService._internal(): vacationToken = authenticate();
 
-    vacationToken = "Bearer $token";
+  factory VacationAppService() {
+    return _vacationAppService;
   }
 
-  Future<List<dynamic>> getEmployees() async {
-    var request = http.get(Uri.https(_vacationUrl, "/api/employees"),
-        headers: {"Authorization": vacationToken!});
+  static Future<String> authenticate() async {
+    var accessToken = await GoogleService().getAccessToken();
+    var queryParameters = {"accessToken": accessToken};
 
-    return request.then((value) => jsonDecode(value.body));
+    Uri uri = Uri.https(_vacationUrl, "/api/authenticate", queryParameters);
+    var token = await http.get(uri).then((response) => response.body);
+    return "Bearer $token";
+  }
+
+  Future<Iterable<EmployeeList>> getEmployees() async {
+    return _buildRequest("/api/employees")
+        .then((response) => jsonDecode(response.body) as List<dynamic>)
+        .then((json) => json.map((employee) => EmployeeList.fromJson(employee)));
+  }
+
+  Future<EmployeeDetail> getEmployee(String email) async {
+    return _buildRequest("/api/employees/$email")
+        .then((response) => jsonDecode(response.body) as Map<String, dynamic>)
+        .then((json) => EmployeeDetail.fromJson(json));
+  }
+
+  Future<http.Response> _buildRequest(String endpoint,
+      {Map<String, String> queryParams = _defaultQueryParam}) async {
+
+    return vacationToken.then((token) => http.get(
+        Uri.https(_vacationUrl, endpoint, queryParams),
+        headers: {"Authorization": token}));
   }
 }

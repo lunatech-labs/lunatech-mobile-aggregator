@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/widgets/RootWidget.dart';
+import 'package:flutter_apps/services/GoogleService.dart';
+import 'package:flutter_apps/widgets/HomePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({super.key});
-
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ["email"],
-    hostedDomain: "lunatech.nl"
-  );
+  const SignInPage({super.key});
 
   Future<void> _handleSignIn(BuildContext context) async {
     try {
-      await _googleSignIn.signIn().then((response) =>
-          Navigator.push(context, MaterialPageRoute(builder: (ctx) => RootWidget(googleSignIn: _googleSignIn))));
+      await GoogleService().signIn().then((_) =>
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const HomePage(title: "This is a shitty app")),
+              (route) => false));
     } catch (error) {
       print(error);
     }
