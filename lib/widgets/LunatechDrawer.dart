@@ -17,7 +17,7 @@ class LunatechDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(child: Text("Menu")),
           ListTile(title: const Text("Home"), onTap: () => _navigateToPage(context, const HomePage())),
-          ListTile(title: const Text("Vacation App"), onTap: () => _navigateToPage(context, const VacationPage())),
+          ListTile(title: const Text("Vacation App"), onTap: () => _navigateToPage(context, const VacationAppListPage())),
           const ListTile(title: Text("Lunch App"))
         ],
       )

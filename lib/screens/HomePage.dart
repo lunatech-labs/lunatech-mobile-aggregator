@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/model/EmployeeList.dart';
+import 'package:flutter_apps/model/vacation/EmployeeList.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,16 +20,18 @@ class HomePageState extends State<HomePage> {
 
   String? accessToken;
   Iterable<EmployeeList>? employees;
+  bool loading = true;
 
   void loadData() async {
     accessToken = await GoogleService().getAccessToken();
     employees = await VacationAppService().getEmployees();
+    loading = false;
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    loadData();
+    if(loading) loadData();
 
     return Scaffold(
       appBar: AppBar(title: const Text(HomePage.title)),
