@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/HomePage.dart';
-import 'package:flutter_apps/screens/VacationPage.dart';
+import 'package:flutter_apps/screens/vacation/VacationAppListPage.dart';
 
 class LunatechDrawer extends StatelessWidget {
   LunatechDrawer({super.key});

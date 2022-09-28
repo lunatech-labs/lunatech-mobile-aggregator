@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 
-import '../model/vacation/EmployeeList.dart';
-import '../widgets/LunatechDrawer.dart';
+import '../../model/vacation/EmployeeList.dart';
+import '../../widgets/LunatechDrawer.dart';
 
 class VacationAppListPage extends StatefulWidget {
   const VacationAppListPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return VacationAppListState();
+    return _VacationAppListState();
   }
 }
 
-class VacationAppListState extends State<VacationAppListPage> {
+class _VacationAppListState extends State<VacationAppListPage> {
   bool loading = true;
   List<EmployeeList> employeesList = [];
 
@@ -24,10 +25,10 @@ class VacationAppListState extends State<VacationAppListPage> {
     return Scaffold(
         appBar: AppBar(title: const Text("Vacation App")),
         drawer: LunatechDrawer(),
-        body: loading ? _waitingText(context) : _listView(context));
+        body: loading ? _waitingText() : _listView());
   }
 
-  ListView _listView(BuildContext context) {
+  ListView _listView() {
     return ListView.separated(
       itemCount: employeesList.length,
       itemBuilder: (_, index) => employeeToItem(employeesList[index]),
@@ -35,7 +36,7 @@ class VacationAppListState extends State<VacationAppListPage> {
     );
   }
 
-  Widget _waitingText(BuildContext context) {
+  Widget _waitingText() {
     return const Center(child: Text("Loading..."));
   }
 
@@ -45,7 +46,7 @@ class VacationAppListState extends State<VacationAppListPage> {
       child: Material(
         child: InkWell(
           child: Center(child: Text(employee.name)),
-          onTap: () => print("Tapped ${employee.email}"),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => VacationAppDetailPage(email: employee.email))),
         ),
       ),
     );
