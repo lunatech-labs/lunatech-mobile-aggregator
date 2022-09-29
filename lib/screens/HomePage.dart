@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/EmployeeList.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
+import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../widgets/LunatechDrawer.dart';
@@ -33,19 +34,23 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     if(loading) loadData();
 
+    return loading ? const LunatechLoading() : body();
+  }
+
+  Scaffold body() {
     return Scaffold(
-      appBar: AppBar(title: const Text(HomePage.title)),
-      drawer: LunatechDrawer(),
-      body: Center(
-        child: ListView(
-          children: [
-            Text("Current user: ${GoogleService().getAccount().displayName}"),
-            Text("Logged with email: ${GoogleService().getAccount().email}"),
-            SelectableText("Authentication token: ${accessToken ?? "Loading..."}"),
-            Text("Employees: ${employees ?? "Loading..."}")
-          ],
-        ),
+    appBar: AppBar(title: const Text(HomePage.title)),
+    drawer: LunatechDrawer(),
+    body: Center(
+      child: ListView(
+        children: [
+          Text("Current user: ${GoogleService().getAccount().displayName}"),
+          Text("Logged with email: ${GoogleService().getAccount().email}"),
+          SelectableText("Authentication token: ${accessToken ?? "Loading..."}"),
+          Text("Employees: ${employees ?? "Loading..."}")
+        ],
       ),
-    );
+    ),
+  );
   }
 }

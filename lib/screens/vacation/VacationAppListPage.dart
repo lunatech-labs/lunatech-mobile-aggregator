@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
+import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 import '../../model/vacation/EmployeeList.dart';
 import '../../widgets/LunatechDrawer.dart';
@@ -25,7 +26,7 @@ class _VacationAppListState extends State<VacationAppListPage> {
     return Scaffold(
         appBar: AppBar(title: const Text("Vacation App")),
         drawer: LunatechDrawer(),
-        body: loading ? _waitingText() : _listView());
+        body: loading ? const LunatechLoading() : _listView());
   }
 
   ListView _listView() {
@@ -34,10 +35,6 @@ class _VacationAppListState extends State<VacationAppListPage> {
       itemBuilder: (_, index) => employeeToItem(employeesList[index]),
       separatorBuilder: (_, __) => const Divider(height: 0),
     );
-  }
-
-  Widget _waitingText() {
-    return const Center(child: Text("Loading..."));
   }
 
   Widget employeeToItem(EmployeeList employee) {
