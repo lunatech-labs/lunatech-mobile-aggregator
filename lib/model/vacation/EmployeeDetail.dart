@@ -1,4 +1,4 @@
-import 'PastVacation.dart';
+import 'AvailableVacation.dart';
 import 'RequestedVacation.dart';
 
 class EmployeeDetail {
@@ -19,7 +19,7 @@ class EmployeeDetail {
   String? fullTime;
   String? isAdmin;
   String? totalNumberOfDays;
-  List<PastVacation> vacationRows = [];
+  List<AvailableVacation> vacationRows = [];
   List<RequestedVacation> vacationRequests = [];
 
   EmployeeDetail.fromJson(Map<String, dynamic> json) {
@@ -30,7 +30,7 @@ class EmployeeDetail {
     isAdmin = json['isAdmin'];
     totalNumberOfDays = json['totalNumberOfDays'];
     json['vacationRows'].forEach((v) {
-      vacationRows.add(PastVacation.fromJson(v));
+      vacationRows.add(AvailableVacation.fromJson(v));
     });
     json['vacationRequests'].forEach((v) {
       vacationRequests.add(RequestedVacation.fromJson(v));

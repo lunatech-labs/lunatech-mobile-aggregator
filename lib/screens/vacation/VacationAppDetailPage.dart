@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
+import 'package:flutter_apps/model/vacation/AvailableVacation.dart';
+import 'package:flutter_apps/model/vacation/RequestedVacation.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
@@ -66,8 +68,8 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
       child: DefaultTabController(
           length: 2,
           child: Column(
-            children: const [
-              SizedBox(
+            children: [
+              const SizedBox(
                 height: 50,
                 child: TabBar(tabs: [
                   Tab(icon: Icon(Icons.directions_bike, color: Colors.red)),
@@ -77,13 +79,96 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
               SizedBox(
                 height: 100,
                 child: TabBarView(children: [
-                  Icon(Icons.directions_bike),
-                  Icon(Icons.directions_car)
+                  vacationRequests(),
+                  const Icon(Icons.directions_car)
                 ]),
               )
             ],
           )),
     );
+  }
+
+  Widget vacationRequests() {
+    return ListView.builder(
+        itemCount: employee!.vacationRequests.length,
+        itemBuilder: (context, index) =>
+            vacationRequest(employee!.vacationRequests[index]));
+  }
+
+  Widget vacationRequest(RequestedVacation vacationRequest) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Material(
+          child: InkWell(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+            SizedBox(
+              width: 120,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("From: "),
+                          Text(vacationRequest.formattedFromDate!,
+                              style: const TextStyle(
+                                  fontSize: 14, color: Colors.grey))
+                        ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Until: "),
+                        Text(vacationRequest.formattedUntilDate!,
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey))
+                      ],
+                    )
+                  ]),
+            ),
+            Text(vacationRequest.status ?? "Unknown")
+          ]))),
+    );
+  }
+
+  Widget availableVacations() {
+    return ListView.builder(
+        itemCount: employee!.vacationRows.length,
+        itemBuilder: (context, index) =>
+            availableVacation(employee!.vacationRows[index]));
+  }
+
+  Widget availableVacation(AvailableVacation availableVacation) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          SizedBox(
+            width: 120,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text("Year: ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(availableVacation.year!.toString(),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey))
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Remaining Days: ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                  Text(availableVacation.numberOfVacationDays!.toString(),
+                      style: const TextStyle(fontSize: 14, color: Colors.grey))
+                ],
+              )
+            ]),
+          ),
+          Column(
+            children: [
+              const Text("Valid Up To", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              Text(availableVacation.formattedExpirationDate!)
+            ],
+          )
+        ]));
   }
 
   void _loadData() async {

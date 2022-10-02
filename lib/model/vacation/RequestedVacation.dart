@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class RequestedVacation {
   RequestedVacation({
     this.id,
@@ -10,7 +12,10 @@ class RequestedVacation {
     this.employeeId,
     this.days,
     this.oldDays,
-    this.vacationType,});
+    this.vacationType,}) {
+    formattedFromDate = _formatMillis(fromDate);
+    formattedUntilDate = _formatMillis(untilDate);
+  }
 
   int? id;
   int? fromDate;
@@ -24,6 +29,9 @@ class RequestedVacation {
   int? oldDays;
   String? vacationType;
 
+  String? formattedFromDate;
+  String? formattedUntilDate;
+
   RequestedVacation.fromJson(dynamic json) {
     id = json['id'];
     fromDate = json['fromDate'];
@@ -36,6 +44,9 @@ class RequestedVacation {
     days = json['days'];
     oldDays = json['oldDays'];
     vacationType = json['vacationType'];
+
+    formattedFromDate = _formatMillis(fromDate);
+    formattedUntilDate = _formatMillis(untilDate);
   }
 
   Map<String, dynamic> toJson() {
@@ -52,5 +63,14 @@ class RequestedVacation {
     map['oldDays'] = oldDays;
     map['vacationType'] = vacationType;
     return map;
+  }
+
+  static String? _formatMillis(int? millis){
+    if(millis != null) {
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(millis);
+      DateFormat formatter = DateFormat("dd-MM-yyyy");
+      return formatter.format(dateTime);
+    }
+    return null;
   }
 }
