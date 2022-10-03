@@ -190,6 +190,9 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
         onPressed: () => navigateToPage(context, const VacationAppRequestVacation()).then((value){
           setState(() => loading = true);
           _loadData();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Vacation has been requested")
+          ));
         }),
         child: const Icon(Icons.add)
     );
