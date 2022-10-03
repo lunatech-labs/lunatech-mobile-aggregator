@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/AvailableVacation.dart';
 import 'package:flutter_apps/model/vacation/RequestedVacation.dart';
+import 'package:flutter_apps/screens/vacation/VacationAppRequestVacation.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
+import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+
+import '../../services/GoogleService.dart';
 
 class VacationAppDetailPage extends StatefulWidget {
   const VacationAppDetailPage({super.key, required this.email});
@@ -26,6 +30,7 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
 
     return Scaffold(
         appBar: AppBar(title: const Text("Vacation App")),
+        floatingActionButton: loading ? null : actionButton(),
         body: loading ? const LunatechLoading() : body());
   }
 
@@ -72,15 +77,15 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
               const SizedBox(
                 height: 50,
                 child: TabBar(tabs: [
-                  Tab(icon: Icon(Icons.directions_bike, color: Colors.red)),
-                  Tab(icon: Icon(Icons.directions_car, color: Colors.red))
+                  Tab(icon: Icon(Icons.upcoming, color: Colors.red)),
+                  Tab(icon: Icon(Icons.event_available, color: Colors.red))
                 ]),
               ),
               SizedBox(
-                height: 100,
+                height: 400,
                 child: TabBarView(children: [
                   vacationRequests(),
-                  const Icon(Icons.directions_car)
+                  availableVacations()
                 ]),
               )
             ],
@@ -103,32 +108,33 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-            SizedBox(
-              width: 120,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("From: "),
-                          Text(vacationRequest.formattedFromDate!,
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.grey))
-                        ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Until: "),
-                        Text(vacationRequest.formattedUntilDate!,
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey))
-                      ],
-                    )
-                  ]),
-            ),
-            Text(vacationRequest.status ?? "Unknown")
-          ]))),
+                    SizedBox(
+                      width: 120,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  const Text("From: "),
+                                  Text(vacationRequest.formattedFromDate!,
+                                      style: const TextStyle(
+                                          fontSize: 14, color: Colors.grey))
+                                ]),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("Until: "),
+                                Text(vacationRequest.formattedUntilDate!,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.grey))
+                              ],
+                            )
+                          ]),
+                    ),
+                    Text(vacationRequest.status ?? "Unknown")
+                  ]))),
     );
   }
 
@@ -142,20 +148,23 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
   Widget availableVacation(AvailableVacation availableVacation) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
-            width: 120,
+            width: 150,
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                const Text("Year: ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                const Text("Year: ", style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.bold)),
                 Text(availableVacation.year!.toString(),
                     style: const TextStyle(fontSize: 14, color: Colors.grey))
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Remaining Days: ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                  const Text("Remaining Days: ", style: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold)),
                   Text(availableVacation.numberOfVacationDays!.toString(),
                       style: const TextStyle(fontSize: 14, color: Colors.grey))
                 ],
@@ -164,11 +173,26 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
           ),
           Column(
             children: [
-              const Text("Valid Up To", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              const Text("Valid Up To",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               Text(availableVacation.formattedExpirationDate!)
             ],
           )
         ]));
+  }
+
+  Widget? actionButton() {
+    if(widget.email != GoogleService().getAccount().email) {
+      return null;
+    }
+
+    return FloatingActionButton(
+        onPressed: () => navigateToPage(context, const VacationAppRequestVacation()).then((value){
+          setState(() => loading = true);
+          _loadData();
+        }),
+        child: const Icon(Icons.add)
+    );
   }
 
   void _loadData() async {

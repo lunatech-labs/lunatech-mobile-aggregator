@@ -20,12 +20,12 @@ class HomePageState extends State<HomePage> {
   late GoogleSignIn googleSignIn;
 
   String? accessToken;
-  Iterable<EmployeeList>? employees;
+  String? vacationToken;
   bool loading = true;
 
   void loadData() async {
     accessToken = await GoogleService().getAccessToken();
-    employees = await VacationAppService().getEmployees();
+ //   vacationToken = await VacationAppService().vacationToken;
     loading = false;
     setState(() {});
   }
@@ -47,7 +47,7 @@ class HomePageState extends State<HomePage> {
           Text("Current user: ${GoogleService().getAccount().displayName}"),
           Text("Logged with email: ${GoogleService().getAccount().email}"),
           SelectableText("Authentication token: ${accessToken ?? "Loading..."}"),
-          Text("Employees: ${employees ?? "Loading..."}")
+    //      SelectableText("Vacation tokenn: ${vacationToken ?? "Loading..."}")
         ],
       ),
     ),
