@@ -3,7 +3,7 @@ import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
-import '../../model/vacation/EmployeeList.dart';
+import '../../model/vacation/EmployeeOvewview.dart';
 import '../../widgets/LunatechDrawer.dart';
 
 class VacationAppListPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class VacationAppListPage extends StatefulWidget {
 
 class _VacationAppListState extends State<VacationAppListPage> {
   bool loading = true;
-  List<EmployeeList> employeesList = [];
+  List<EmployeeOverview> employeesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _VacationAppListState extends State<VacationAppListPage> {
     );
   }
 
-  Widget employeeToItem(EmployeeList employee) {
+  Widget employeeToItem(EmployeeOverview employee) {
     return SizedBox(
       height: 50,
       child: Material(

@@ -1,5 +1,5 @@
-class EmployeeList {
-  const EmployeeList(this.id, this.email, this.name, this.fullTime, this.isAdmin,
+class EmployeeOverview {
+  const EmployeeOverview(this.id, this.email, this.name, this.fullTime, this.isAdmin,
       this.totalDaysThisYear, this.approvedThisYear);
 
   final int id;
@@ -10,7 +10,7 @@ class EmployeeList {
   final num totalDaysThisYear;
   final num approvedThisYear;
 
-  EmployeeList.fromJson(Map<String, dynamic> json)
+  EmployeeOverview.fromJson(Map<String, dynamic> json)
       : id = int.parse(json["id"]),
         email = json["email"],
         name = json["name"],

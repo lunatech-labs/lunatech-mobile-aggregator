@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/model/vacation/EmployeeList.dart';
+import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
+import 'package:flutter_apps/model/vacation/EmployeeOvewview.dart';
+import 'package:flutter_apps/services/BlogAppService.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/LunatechDrawer.dart';
 
@@ -17,40 +20,43 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late GoogleSignIn googleSignIn;
-
-  String? accessToken;
-  String? vacationToken;
+  late List<BlogPostOverview> posts;
   bool loading = true;
 
-  void loadData() async {
-    accessToken = await GoogleService().getAccessToken();
- //   vacationToken = await VacationAppService().vacationToken;
+  @override
+  Widget build(BuildContext context) {
+    if (loading) _loadData();
+
+    return loading ? const LunatechLoading() : _body();
+  }
+
+  Scaffold _body() {
+    return Scaffold(
+        appBar: AppBar(title: const Text(HomePage.title)),
+        drawer: const LunatechDrawer(),
+        body: ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) => _postOverviewBuilder(posts[index])
+        )
+    );
+  }
+
+  Widget _postOverviewBuilder(BlogPostOverview post) {
+    return SizedBox(
+      height: 50,
+      child: Material(
+        child: InkWell(
+          child: Center(child: Text(post.title ?? "No Title")),
+          onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
+        ),
+      ),
+    );
+  }
+
+  void _loadData() async {
+    posts = await BlogAppService().getPosts();
     loading = false;
     setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if(loading) loadData();
-
-    return loading ? const LunatechLoading() : body();
-  }
-
-  Scaffold body() {
-    return Scaffold(
-    appBar: AppBar(title: const Text(HomePage.title)),
-    drawer: LunatechDrawer(),
-    body: Center(
-      child: ListView(
-        children: [
-          Text("Current user: ${GoogleService().getAccount().displayName}"),
-          Text("Logged with email: ${GoogleService().getAccount().email}"),
-          SelectableText("Authentication token: ${accessToken ?? "Loading..."}"),
-    //      SelectableText("Vacation tokenn: ${vacationToken ?? "Loading..."}")
-        ],
-      ),
-    ),
-  );
-  }
 }

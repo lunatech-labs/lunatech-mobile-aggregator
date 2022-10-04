@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
-import 'package:flutter_apps/model/vacation/EmployeeList.dart';
+import 'package:flutter_apps/model/vacation/EmployeeOvewview.dart';
 import 'package:flutter_apps/model/vacation/VacationRequest.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:http/http.dart' as http;
@@ -30,11 +30,11 @@ class VacationAppService {
     return "Bearer $token";
   }
 
-  Future<List<EmployeeList>> getEmployees() async {
+  Future<List<EmployeeOverview>> getEmployees() async {
     return _buildRequest("/api/employees")
         .then((response) => jsonDecode(response.body) as List<dynamic>)
         .then((json) =>
-            json.map((employee) => EmployeeList.fromJson(employee)).toList());
+            json.map((employee) => EmployeeOverview.fromJson(employee)).toList());
   }
 
   Future<EmployeeDetail> getEmployee(String email) async {
