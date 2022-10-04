@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/screens/HomePage.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -18,30 +19,37 @@ class _SignInState extends State<SignInPage> {
   Future<void> _handleSignIn(BuildContext context) async {
     try {
       setState(() => loading = true);
-      await GoogleService().signIn().then((_) =>
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const HomePage()),
-                  (route) => false));
+      await GoogleService().signIn().then((_) => Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+          (route) => false));
     } catch (error) {
-      print(error);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
       setState(() => loading = false);
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return loading ? const LunatechLoading(): body(context);
+    return loading ? const LunatechLoading() : body(context);
   }
 
   Scaffold body(BuildContext context) {
     return Scaffold(
-    body: Center(
-      child: TextButton(
-          onPressed: () => _handleSignIn(context),
-          child: const Text("Test login")),
-    ),
-  );
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SvgPicture.asset("lib/static/logo-lunatech.svg", height: 120, width: 120),
+            const Image(
+              image: AssetImage("lib/static/logo-google.png"),
+              height: 100,
+              width: 200,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

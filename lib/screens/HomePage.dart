@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
-import 'package:flutter_apps/model/vacation/EmployeeOvewview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
-import 'package:flutter_apps/services/GoogleService.dart';
-import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/LunatechDrawer.dart';
@@ -55,8 +51,6 @@ class HomePageState extends State<HomePage> {
 
   void _loadData() async {
     posts = await BlogAppService().getPosts();
-    loading = false;
-    setState(() {});
+    setState(() => loading = false);
   }
-
 }
