@@ -42,10 +42,15 @@ class _SignInState extends State<SignInPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SvgPicture.asset("lib/static/logo-lunatech.svg", height: 120, width: 120),
-            const Image(
-              image: AssetImage("lib/static/logo-google.png"),
-              height: 100,
-              width: 200,
+            InkWell(
+              onTap: () => _handleSignIn(context), // Image tapped
+              splashColor: Colors.white10, // Splash color over image
+              child: Ink.image(
+                fit: BoxFit.fill,
+                width: 194,
+                height: 46,
+                image: const AssetImage("lib/static/logo-google.png"),
+              ),
             )
           ],
         ),
