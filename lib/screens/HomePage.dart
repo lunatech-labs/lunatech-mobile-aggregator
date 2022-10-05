@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
+import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,13 +38,13 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _postOverviewBuilder(BlogPostOverview post) {
-    return SizedBox(
-      height: 50,
-      child: Material(
-        child: InkWell(
+    return LunatechListItem(
+      child: InkWell(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           child: Center(child: Text(post.title ?? "No Title")),
-          onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
         ),
+        onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
       ),
     );
   }

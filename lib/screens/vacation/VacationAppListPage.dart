@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
+import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
+import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
-import '../../model/vacation/EmployeeOvewview.dart';
+import '../../model/vacation/EmployeeOverview.dart';
 import '../../widgets/LunatechDrawer.dart';
 
 class VacationAppListPage extends StatefulWidget {
@@ -19,13 +21,19 @@ class _VacationAppListState extends State<VacationAppListPage> {
   bool loading = true;
   List<EmployeeOverview> employeesList = [];
 
+  late String userEmail;
+
+  _VacationAppListState(){
+    userEmail = GoogleService().getAccount().email;
+  }
+
   @override
   Widget build(BuildContext context) {
     if(loading) _loadData();
 
     return Scaffold(
         appBar: AppBar(title: const Text("Vacation App")),
-        drawer: LunatechDrawer(),
+        drawer: const LunatechDrawer(),
         body: loading ? const LunatechLoading() : _listView());
   }
 
@@ -38,13 +46,14 @@ class _VacationAppListState extends State<VacationAppListPage> {
   }
 
   Widget employeeToItem(EmployeeOverview employee) {
-    return SizedBox(
-      height: 50,
-      child: Material(
-        child: InkWell(
-          child: Center(child: Text(employee.name)),
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => VacationAppDetailPage(email: employee.email))),
-        ),
+    bool isUser = employee.email == userEmail;
+
+    return LunatechListItem(
+      height: 80,
+      color: isUser ? Colors.redAccent : Colors.white,
+      child: InkWell(
+        child: Center(child: Text(employee.name)),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => VacationAppDetailPage(email: employee.email))),
       ),
     );
   }

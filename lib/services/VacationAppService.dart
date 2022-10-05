@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
-import 'package:flutter_apps/model/vacation/EmployeeOvewview.dart';
+import 'package:flutter_apps/model/vacation/EmployeeOverview.dart';
 import 'package:flutter_apps/model/vacation/VacationRequest.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:http/http.dart' as http;
