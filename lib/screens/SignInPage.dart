@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/screens/HomePage.dart';
+import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -37,22 +38,26 @@ class _SignInState extends State<SignInPage> {
 
   Scaffold body(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SvgPicture.asset("lib/static/logo-lunatech.svg", height: 120, width: 120),
-            InkWell(
-              onTap: () => _handleSignIn(context), // Image tapped
-              splashColor: Colors.white10, // Splash color over image
-              child: Ink.image(
-                fit: BoxFit.fill,
-                width: 194,
-                height: 46,
-                image: const AssetImage("lib/static/logo-google.png"),
-              ),
-            )
-          ],
+      body: LunatechBackground(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SvgPicture.asset("lib/static/logo-lunatech.svg", height: 120, width: 120),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _handleSignIn(context), // Image tapped
+                  child: Ink.image(
+                    fit: BoxFit.fill,
+                    width: 194,
+                    height: 46,
+                    image: const AssetImage("lib/static/logo-google.png"),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

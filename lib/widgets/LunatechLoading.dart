@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LunatechLoading extends StatelessWidget {
@@ -6,6 +7,8 @@ class LunatechLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: SpinKitRing(color: Colors.red)));
+    return const Scaffold(
+        body: LunatechBackground(
+            child: Center(child: SpinKitRing(color: Colors.white))));
   }
 }

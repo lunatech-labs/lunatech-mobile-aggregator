@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
+import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
@@ -37,11 +38,13 @@ class _VacationAppListState extends State<VacationAppListPage> {
         body: loading ? const LunatechLoading() : _listView());
   }
 
-  ListView _listView() {
-    return ListView.separated(
-      itemCount: employeesList.length,
-      itemBuilder: (_, index) => employeeToItem(employeesList[index]),
-      separatorBuilder: (_, __) => const Divider(height: 0),
+  Widget _listView() {
+    return LunatechBackground(
+      child: ListView.separated(
+        itemCount: employeesList.length,
+        itemBuilder: (_, index) => employeeToItem(employeesList[index]),
+        separatorBuilder: (_, __) => const Divider(height: 0),
+      ),
     );
   }
 
