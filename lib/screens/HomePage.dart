@@ -32,9 +32,8 @@ class HomePageState extends State<HomePage> {
         drawer: const LunatechDrawer(),
         body: ListView.builder(
             itemCount: posts.length,
-            itemBuilder: (context, index) => _postOverviewBuilder(posts[index])
-        )
-    );
+            itemBuilder: (context, index) =>
+                _postOverviewBuilder(posts[index])));
   }
 
   Widget _postOverviewBuilder(BlogPostOverview post) {
@@ -50,7 +49,11 @@ class HomePageState extends State<HomePage> {
   }
 
   void _loadData() async {
-    posts = await BlogAppService().getPosts();
+    posts = await BlogAppService().getPosts().onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Couldn't connect to Blog App")));
+      return List.empty();
+    });
     setState(() => loading = false);
   }
 }

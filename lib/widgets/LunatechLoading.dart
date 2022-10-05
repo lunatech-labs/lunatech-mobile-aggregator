@@ -6,6 +6,6 @@ class LunatechLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: SpinKitRing(color: Colors.red));
+    return const Scaffold(body: Center(child: SpinKitRing(color: Colors.red)));
   }
 }
