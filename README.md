@@ -28,10 +28,10 @@ This Sign In will only accept Lunatech employees.
 Once authenticated, the user will get access to the main application. From the drawer menu 
 he'll be able to select one of the following screens:
 - [Home](#home)
-- [Toggl](#toggl)
 - [Vacation App](#vacation-app)
 - [Lunch App](#lunch-app)
-- [Expensify](#expensify)
+- [WiFi Password Reset](#wifi-password-reset)
+- [Guides](#guides)
 
 ### Home
 The homepage will be used as a portal to the [Lunatech Blog](https://blog.lunatech.com/)    
@@ -40,8 +40,7 @@ to create other sorting methods (maybe a "random" one to select a random article
 interest of the user)    
 Upon clicking on one of the articles, an in-app browser will display the content of it.
 
-### Toggl
-TBD
+
 ### Vacation App
 The Vacation App will provide the user access to all the functionalities available in the Web App.    
 He will be able to see his remaining vacation days, check the status of his vacation requests and 
@@ -49,5 +48,7 @@ request new vacations all from this screen.
 
 ### Lunch App
 TBD
-### Expensify
+### WIFI Password Reset
+TBD
+### Guides
 TBD
