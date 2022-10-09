@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/model/vacation/VacationRequest.dart';
+import 'package:flutter_apps/model/vacation/form/VacationRequest.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
-import 'package:intl/intl.dart';
+
+import '../../model/vacation/vacation_type.dart';
 
 class VacationAppRequestVacation extends StatefulWidget {
   const VacationAppRequestVacation({super.key});

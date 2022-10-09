@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
-import 'package:flutter_apps/model/vacation/EmployeeOverview.dart';
-import 'package:flutter_apps/model/vacation/VacationRequest.dart';
+import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
+import 'package:flutter_apps/model/vacation/dto/EmployeeOverview.dart';
+import 'package:flutter_apps/model/vacation/form/CancelRequest.dart';
+import 'package:flutter_apps/model/vacation/form/UpdateRequest.dart';
+import 'package:flutter_apps/model/vacation/form/VacationRequest.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,8 +35,9 @@ class VacationAppService {
   Future<List<EmployeeOverview>> getEmployees() async {
     return _buildRequest("/api/employees")
         .then((response) => jsonDecode(response.body) as List<dynamic>)
-        .then((json) =>
-            json.map((employee) => EmployeeOverview.fromJson(employee)).toList());
+        .then((json) => json
+            .map((employee) => EmployeeOverview.fromJson(employee))
+            .toList());
   }
 
   Future<EmployeeDetail> getEmployee(String email) async {
@@ -51,8 +54,29 @@ class VacationAppService {
           "Authorization": token
         },
         encoding: Encoding.getByName('utf-8'),
-        body: vacationRequest.toJson()
-    ));
+        body: vacationRequest.toJson()));
+  }
+
+  Future<http.Response> cancelVacation(String employeeEmail, int vacationId, CancelRequest cancelRequest) async {
+    return vacationToken.then((token) => http.delete(
+        Uri.https(_vacationUrl, "api/employees/$employeeEmail/requests/$vacationId"),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": token
+        },
+        encoding: Encoding.getByName('utf-8'),
+        body: cancelRequest.toJson()));
+  }
+
+  Future<http.Response> updateVacation(String employeeEmail, int vacationId, UpdateRequest updateRequest) async {
+    return vacationToken.then((token) => http.put(
+        Uri.https(_vacationUrl, "api/employees/$employeeEmail/requests/$vacationId"),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": token
+        },
+        encoding: Encoding.getByName('utf-8'),
+        body: updateRequest.toJson()));
   }
 
   Future<http.Response> _buildRequest(String endpoint,

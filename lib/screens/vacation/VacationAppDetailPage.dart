@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/model/vacation/EmployeeDetail.dart';
-import 'package:flutter_apps/model/vacation/AvailableVacation.dart';
-import 'package:flutter_apps/model/vacation/RequestedVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
+import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
 import 'package:flutter_apps/screens/vacation/VacationAppRequestVacation.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';

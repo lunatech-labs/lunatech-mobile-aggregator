@@ -6,7 +6,7 @@ import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
-import '../../model/vacation/EmployeeOverview.dart';
+import '../../model/vacation/dto/EmployeeOverview.dart';
 import '../../widgets/LunatechDrawer.dart';
 
 class VacationAppListPage extends StatefulWidget {

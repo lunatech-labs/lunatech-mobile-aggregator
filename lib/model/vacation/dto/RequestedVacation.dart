@@ -1,4 +1,5 @@
-import 'package:intl/intl.dart';
+import 'package:flutter_apps/model/vacation/vacation_type.dart';
+import 'package:flutter_apps/util/UtilMethods.dart';
 
 class RequestedVacation {
   RequestedVacation({
@@ -12,7 +13,8 @@ class RequestedVacation {
     this.employeeId,
     this.days,
     this.oldDays,
-    this.vacationType,}) {
+    this.vacationType,
+  }) {
     formattedFromDate = _formatMillis(fromDate);
     formattedUntilDate = _formatMillis(untilDate);
   }
@@ -27,7 +29,7 @@ class RequestedVacation {
   int? employeeId;
   int? days;
   int? oldDays;
-  String? vacationType;
+  VacationType? vacationType;
 
   String? formattedFromDate;
   String? formattedUntilDate;
@@ -43,7 +45,7 @@ class RequestedVacation {
     employeeId = json['employeeId'];
     days = json['days'];
     oldDays = json['oldDays'];
-    vacationType = json['vacationType'];
+    vacationType = VacationTypeExtension.fromName(json['vacationType']);
 
     formattedFromDate = _formatMillis(fromDate);
     formattedUntilDate = _formatMillis(untilDate);
@@ -61,15 +63,14 @@ class RequestedVacation {
     map['employeeId'] = employeeId;
     map['days'] = days;
     map['oldDays'] = oldDays;
-    map['vacationType'] = vacationType;
+    map['vacationType'] = vacationType?.name;
     return map;
   }
 
-  static String? _formatMillis(int? millis){
-    if(millis != null) {
+  static String? _formatMillis(int? millis) {
+    if (millis != null) {
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(millis);
-      DateFormat formatter = DateFormat("dd-MM-yyyy");
-      return formatter.format(dateTime);
+      return formatDate(dateTime);
     }
     return null;
   }
