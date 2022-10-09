@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
-import 'package:flutter_apps/screens/vacation/VacationAppRequestVacation.dart';
+import 'package:flutter_apps/screens/vacation/VacationRequestDetail.dart';
+import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 import '../../services/GoogleService.dart';
 
-class VacationAppDetailPage extends StatefulWidget {
-  const VacationAppDetailPage({super.key, required this.email});
+class EmployeeDetailPage extends StatefulWidget {
+  const EmployeeDetailPage({super.key, required this.email});
 
   final String email;
 
   @override
   State<StatefulWidget> createState() {
-    return VacationAppDetailState();
+    return EmployeeDetailState();
   }
 }
 
-class VacationAppDetailState extends State<VacationAppDetailPage> {
+class EmployeeDetailState extends State<EmployeeDetailPage> {
   EmployeeDetail? employee;
   bool loading = true;
 
@@ -68,28 +69,27 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
   }
 
   Widget tabView() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50,
-                child: TabBar(tabs: [
-                  Tab(icon: Icon(Icons.upcoming, color: Colors.red)),
-                  Tab(icon: Icon(Icons.event_available, color: Colors.red))
-                ]),
-              ),
-              SizedBox(
-                height: 400,
-                child: TabBarView(children: [
-                  vacationRequests(),
-                  availableVacations()
-                ]),
-              )
-            ],
-          )),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                  child: TabBar(tabs: [
+                    Tab(icon: Icon(Icons.upcoming, color: Colors.red)),
+                    Tab(icon: Icon(Icons.event_available, color: Colors.red))
+                  ]),
+                ),
+                Expanded(
+                  child: TabBarView(
+                      children: [vacationRequests(), availableVacations()]),
+                )
+              ],
+            )),
+      ),
     );
   }
 
@@ -102,40 +102,40 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
 
   Widget vacationRequest(RequestedVacation vacationRequest) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Material(
-          child: InkWell(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Material(
+            child: InkWell(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            SizedBox(
+              width: 120,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 120,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
-                                children: [
-                                  const Text("From: "),
-                                  Text(vacationRequest.formattedFromDate!,
-                                      style: const TextStyle(
-                                          fontSize: 14, color: Colors.grey))
-                                ]),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Until: "),
-                                Text(vacationRequest.formattedUntilDate!,
-                                    style: const TextStyle(
-                                        fontSize: 14, color: Colors.grey))
-                              ],
-                            )
-                          ]),
-                    ),
-                    Text(vacationRequest.status ?? "Unknown")
-                  ]))),
-    );
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("From: "),
+                          Text(vacationRequest.formattedFromDate!,
+                              style: const TextStyle(
+                                  fontSize: 14, color: Colors.grey))
+                        ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Until: "),
+                        Text(vacationRequest.formattedUntilDate!,
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey))
+                      ],
+                    )
+                  ]),
+            ),
+            Text(vacationRequest.status ?? "Unknown")
+          ]),
+          onTap: () => navigateToPage(
+              context, VacationRequestDetail(vacationRequest, widget.email)),
+        )));
   }
 
   Widget availableVacations() {
@@ -148,23 +148,25 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
   Widget availableVacation(AvailableVacation availableVacation) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
             width: 150,
             child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                const Text("Year: ", style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.bold)),
+                const Text("Year: ",
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 Text(availableVacation.year!.toString(),
                     style: const TextStyle(fontSize: 14, color: Colors.grey))
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Remaining Days: ", style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold)),
+                  const Text("Remaining Days: ",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                   Text(availableVacation.numberOfVacationDays!.toString(),
                       style: const TextStyle(fontSize: 14, color: Colors.grey))
                 ],
@@ -182,20 +184,18 @@ class VacationAppDetailState extends State<VacationAppDetailPage> {
   }
 
   Widget? actionButton() {
-    if(widget.email != GoogleService().getAccount().email) {
+    if (widget.email != GoogleService().getAccount().email) {
       return null;
     }
 
     return FloatingActionButton(
-        onPressed: () => navigateToPage(context, const VacationAppRequestVacation()).then((value){
-          setState(() => loading = true);
-          _loadData();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Vacation has been requested")
-          ));
-        }),
-        child: const Icon(Icons.add)
-    );
+        onPressed: () =>
+            navigateToPage(context, VacationRequestForm(widget.email))
+                .then((value) {
+              setState(() => loading = true);
+              _loadData();
+            }),
+        child: const Icon(Icons.add));
   }
 
   void _loadData() async {

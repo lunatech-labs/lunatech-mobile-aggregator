@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/screens/vacation/VacationAppDetailPage.dart';
+import 'package:flutter_apps/screens/vacation/EmployeeDetailPage.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
@@ -9,22 +9,22 @@ import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import '../../model/vacation/dto/EmployeeOverview.dart';
 import '../../widgets/LunatechDrawer.dart';
 
-class VacationAppListPage extends StatefulWidget {
-  const VacationAppListPage({super.key});
+class EmployeeOverviewPage extends StatefulWidget {
+  const EmployeeOverviewPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _VacationAppListState();
+    return _EmployeeOverviewState();
   }
 }
 
-class _VacationAppListState extends State<VacationAppListPage> {
+class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
   bool loading = true;
   List<EmployeeOverview> employeesList = [];
 
   late String userEmail;
 
-  _VacationAppListState(){
+  _EmployeeOverviewState(){
     userEmail = GoogleService().getAccount().email;
   }
 
@@ -56,7 +56,7 @@ class _VacationAppListState extends State<VacationAppListPage> {
       color: isUser ? Colors.redAccent : Colors.white,
       child: InkWell(
         child: Center(child: Text(employee.name)),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => VacationAppDetailPage(email: employee.email))),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => EmployeeDetailPage(email: employee.email))),
       ),
     );
   }

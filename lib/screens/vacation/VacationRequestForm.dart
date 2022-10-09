@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
+import 'package:flutter_apps/model/vacation/form/UpdateRequest.dart';
 import 'package:flutter_apps/model/vacation/form/VacationRequest.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
@@ -7,16 +9,19 @@ import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 import '../../model/vacation/vacation_type.dart';
 
-class VacationAppRequestVacation extends StatefulWidget {
-  const VacationAppRequestVacation({super.key});
+class VacationRequestForm extends StatefulWidget {
+  const VacationRequestForm(this.employeeEmail, {super.key, this.vacation});
+
+  final String employeeEmail;
+  final RequestedVacation? vacation;
 
   @override
   State<StatefulWidget> createState() {
-    return _RequestVacationStatus();
+    return _VacationRequestFormStatus();
   }
 }
 
-class _RequestVacationStatus extends State<VacationAppRequestVacation> {
+class _VacationRequestFormStatus extends State<VacationRequestForm> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController fromDateController = TextEditingController();
@@ -26,12 +31,22 @@ class _RequestVacationStatus extends State<VacationAppRequestVacation> {
   bool loading = false;
 
   @override
+  void initState() {
+    super.initState();
+    fromDateController.text = widget.vacation?.formattedFromDate ?? "";
+    untilDateController.text = widget.vacation?.formattedUntilDate ?? "";
+    radioValue = widget.vacation?.vacationType == VacationType.unpaid ? 1 : 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return loading ? const LunatechLoading() : Scaffold(
-      appBar: AppBar(title: const Text("Vacation App")),
-      floatingActionButton: actionButton(),
-      body: body(),
-    );
+    return loading
+        ? const LunatechLoading()
+        : Scaffold(
+            appBar: AppBar(title: const Text("Vacation App")),
+            floatingActionButton: actionButton(),
+            body: body(),
+          );
   }
 
   Widget body() {
@@ -130,24 +145,58 @@ class _RequestVacationStatus extends State<VacationAppRequestVacation> {
           if (_formKey.currentState!.validate()) {
             setState(() => loading = true);
 
-            VacationRequest vacationRequest = VacationRequest(
-                email: GoogleService().getAccount().email,
-                from: baseDateFormat.parse(fromDateController.text),
-                until: baseDateFormat.parse(untilDateController.text),
-                vacationType: radioValue == 0 ? VacationType.paid : VacationType.unpaid);
-
-            VacationAppService().requestVacation(vacationRequest).then((response) {
-              if (response.statusCode == 200) {
-                Navigator.pop(context);
-              } else {
-                setState(() => loading = false);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Vacation Request Failed")
-                ));
-              }
-            });
+            if(widget.vacation == null) {
+              _createVacationRequest();
+            } else {
+              _updateVacationRequest();
+            }
           }
         });
+  }
+
+  void _createVacationRequest() {
+    VacationRequest vacationRequest = VacationRequest(
+        email: widget.employeeEmail,
+        from: baseDateFormat.parse(fromDateController.text),
+        until: baseDateFormat.parse(untilDateController.text),
+        vacationType:
+            radioValue == 0 ? VacationType.paid : VacationType.unpaid);
+
+    VacationAppService()
+        .requestVacation(vacationRequest)
+        .then((response) {
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Vacation has been requested")));
+      } else {
+        setState(() => loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Vacation Request Failed")));
+      }
+    });
+  }
+
+  void _updateVacationRequest() {
+    UpdateRequest vacationRequest = UpdateRequest(
+        newFrom: baseDateFormat.parse(fromDateController.text),
+        newUntil: baseDateFormat.parse(untilDateController.text),
+        vacationType:
+        radioValue == 0 ? VacationType.paid : VacationType.unpaid);
+
+    VacationAppService()
+        .updateVacation(widget.employeeEmail, widget.vacation!.id, vacationRequest)
+        .then((response) {
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Vacation has been updated")));
+      } else {
+        setState(() => loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Vacation Request Failed")));
+      }
+    });
   }
 
   TextFormField dateFormField(TextEditingController controller) {

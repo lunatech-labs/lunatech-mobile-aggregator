@@ -3,50 +3,49 @@ import 'package:flutter_apps/util/UtilMethods.dart';
 
 class RequestedVacation {
   RequestedVacation({
-    this.id,
-    this.fromDate,
-    this.untilDate,
+    required this.id,
+    required this.fromDate,
+    required this.untilDate,
     this.status,
     this.secretCode,
     this.approvedBy,
     this.reason,
-    this.employeeId,
-    this.days,
+    required this.employeeId,
+    required this.days,
     this.oldDays,
-    this.vacationType,
+    required this.vacationType,
   }) {
     formattedFromDate = _formatMillis(fromDate);
     formattedUntilDate = _formatMillis(untilDate);
   }
 
-  int? id;
-  int? fromDate;
-  int? untilDate;
+  int id;
+  int fromDate;
+  int untilDate;
   String? status;
   String? secretCode;
   String? approvedBy;
   String? reason;
-  int? employeeId;
-  int? days;
+  int employeeId;
+  int days;
   int? oldDays;
-  VacationType? vacationType;
+  VacationType vacationType;
 
   String? formattedFromDate;
   String? formattedUntilDate;
 
-  RequestedVacation.fromJson(dynamic json) {
-    id = json['id'];
-    fromDate = json['fromDate'];
-    untilDate = json['untilDate'];
-    status = json['status'];
-    secretCode = json['secretCode'];
-    approvedBy = json['approvedBy'];
-    reason = json['reason'];
-    employeeId = json['employeeId'];
-    days = json['days'];
-    oldDays = json['oldDays'];
-    vacationType = VacationTypeExtension.fromName(json['vacationType']);
-
+  RequestedVacation.fromJson(dynamic json)
+      : id = json['id'],
+        fromDate = json['fromDate'],
+        untilDate = json['untilDate'],
+        status = json['status'],
+        secretCode = json['secretCode'],
+        approvedBy = json['approvedBy'],
+        reason = json['reason'],
+        employeeId = json['employeeId'],
+        days = json['days'],
+        oldDays = json['oldDays'],
+        vacationType = VacationTypeExtension.fromName(json['vacationType'])! {
     formattedFromDate = _formatMillis(fromDate);
     formattedUntilDate = _formatMillis(untilDate);
   }

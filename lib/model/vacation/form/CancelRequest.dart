@@ -1,7 +1,7 @@
 class CancelRequest {
   String? reason;
 
-  CancelRequest(this.reason);
+  CancelRequest({this.reason});
 
   Map<String, dynamic> toJson() {
     return {
