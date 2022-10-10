@@ -43,11 +43,14 @@ class HomePageState extends State<HomePage> {
   Widget _postOverviewBuilder(BlogPostOverview post) {
     return LunatechListItem(
       child: InkWell(
-        child: Container(
-          decoration: BoxDecoration(image: getItemBackgroundImage(post)),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-          child: Align(
-              alignment: Alignment.bottomCenter, child: getItemTextBox(post)),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          child: Container(
+            decoration: BoxDecoration(image: getItemBackgroundImage(post)),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Align(
+                alignment: Alignment.bottomCenter, child: getItemTextBox(post)),
+          ),
         ),
         onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
       ),
