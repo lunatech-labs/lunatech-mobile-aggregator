@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/status.dart';
 import 'package:flutter_apps/model/vacation/form/CancelRequest.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
+import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 class VacationRequestDetail extends StatefulWidget {
@@ -42,34 +44,95 @@ class _VacationRequestDetailState extends State<VacationRequestDetail> {
   }
 
   Widget _content() {
-    return Center(
-        child: Column(children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("From: ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.formattedFromDate!)
+    return LunatechBackground(
+      child: SizedBox.expand(
+        child: FractionallySizedBox(
+          heightFactor: 0.8,
+          widthFactor: 0.9,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Center(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [_daysSection(), _statusSection()])),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _daysSection() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      SizedBox(
+        width: 120,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("From: ",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(vacation.formattedFromDate!)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Until: ",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(vacation.formattedUntilDate!)
+              ],
+            )
+          ],
+        ),
+      ),
+      Column(
+        children: [
+          Text(vacation.days.toString(),
+              style:
+                  const TextStyle(fontSize: 40, fontWeight: FontWeight.w900)),
+          const Text("Days", style: TextStyle(fontWeight: FontWeight.bold))
+        ],
+      )
+    ]);
+  }
+
+  Widget _statusSection() {
+    return SizedBox(
+      child: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+              color: vacation.status!.color,
+              borderRadius: const BorderRadius.all(Radius.circular(25))),
+          child: Center(
+              child: Text(vacation.status!.value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: vacation.status! == Status.requested
+                          ? Colors.black
+                          : Colors.white))),
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          const Text("Approved By: ",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(vacation.approvedBy ?? "")
+        ]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Reason: ",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(vacation.reason ?? "")
+          ],
+        )
       ]),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Until: ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.formattedUntilDate!)
-      ]),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Days: ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.days.toString())
-      ]),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Status: ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.status!)
-      ]),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Approved By: ",
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.approvedBy ?? "")
-      ]),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text("Reason: ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacation.reason ?? "")
-      ]),
-    ]));
+    );
   }
 
   List<Widget> _actions() {
@@ -102,7 +165,8 @@ class _VacationRequestDetailState extends State<VacationRequestDetail> {
 
   void _updateRequest() async {
     setState(() => _loading = true);
-    await navigateToPage(context, VacationRequestForm(widget.employeeEmail, vacation: vacation));
+    await navigateToPage(
+        context, VacationRequestForm(widget.employeeEmail, vacation: vacation));
     await _refreshVacation();
     setState(() => _loading = false);
   }

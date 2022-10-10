@@ -1,3 +1,4 @@
+import 'package:flutter_apps/model/vacation/dto/status.dart';
 import 'package:flutter_apps/model/vacation/vacation_type.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 
@@ -22,7 +23,7 @@ class RequestedVacation {
   int id;
   int fromDate;
   int untilDate;
-  String? status;
+  Status? status;
   String? secretCode;
   String? approvedBy;
   String? reason;
@@ -38,7 +39,7 @@ class RequestedVacation {
       : id = json['id'],
         fromDate = json['fromDate'],
         untilDate = json['untilDate'],
-        status = json['status'],
+        status = StatusExtension.fromValue(json['status']),
         secretCode = json['secretCode'],
         approvedBy = json['approvedBy'],
         reason = json['reason'],
@@ -62,7 +63,7 @@ class RequestedVacation {
     map['employeeId'] = employeeId;
     map['days'] = days;
     map['oldDays'] = oldDays;
-    map['vacationType'] = vacationType?.name;
+    map['vacationType'] = vacationType.name;
     return map;
   }
 

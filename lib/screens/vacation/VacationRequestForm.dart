@@ -8,6 +8,7 @@ import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 import '../../model/vacation/vacation_type.dart';
+import '../../widgets/LunatechBackground.dart';
 
 class VacationRequestForm extends StatefulWidget {
   const VacationRequestForm(this.employeeEmail, {super.key, this.vacation});
@@ -50,14 +51,28 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
   }
 
   Widget body() {
-    return Form(
-        key: _formKey,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [_fromField(), _untilField(), _typeOfVacationField()],
-          ),
-        ));
+    return LunatechBackground(
+      child: Form(
+          key: _formKey,
+          child: SizedBox.expand(
+            child: FractionallySizedBox(
+              heightFactor: 0.85,
+              widthFactor: 0.85,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [_fromField(), _untilField(), _typeOfVacationField()],
+                  ),
+                ),
+              ),
+            ),
+          )),
+    );
   }
 
   Widget _fromField() {

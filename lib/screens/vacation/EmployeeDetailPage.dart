@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/status.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
+import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 
 import '../../services/GoogleService.dart';
@@ -36,42 +38,55 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
   }
 
   Widget body() {
-    return Column(children: [overview(), tabView()]);
+    return LunatechBackground(child: Column(children: [overview(), tabView()]));
   }
 
   Widget overview() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(employee!.name!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20)),
-              Text(employee!.email!,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey))
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Remaining Days"),
-              Text(employee!.totalNumberOfDays!,
-                  style: const TextStyle(color: Colors.green))
-            ],
-          )
-        ],
+    return FractionallySizedBox(
+      widthFactor: 0.9,
+      child: Container(
+        height: 100,
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(top: 10),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(employee!.name!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20)),
+                Text(employee!.email!,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey))
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Remaining Days"),
+                Text(employee!.totalNumberOfDays!,
+                    style: const TextStyle(color: Colors.green))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget tabView() {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         child: DefaultTabController(
             length: 2,
             child: Column(
@@ -94,17 +109,24 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
   }
 
   Widget vacationRequests() {
-    return ListView.builder(
+    return ListView.separated(
         itemCount: employee!.vacationRequests.length,
         itemBuilder: (context, index) =>
-            vacationRequest(employee!.vacationRequests[index]));
+            vacationRequest(employee!.vacationRequests[index]),
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+              height: 0,
+              thickness: 1,
+            ));
   }
 
   Widget vacationRequest(RequestedVacation vacationRequest) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Material(
-            child: InkWell(
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () => navigateToPage(
+            context, VacationRequestDetail(vacationRequest, widget.email)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             SizedBox(
@@ -131,18 +153,20 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
                     )
                   ]),
             ),
-            Text(vacationRequest.status ?? "Unknown")
+            Text(vacationRequest.status?.value ?? "Unknown")
           ]),
-          onTap: () => navigateToPage(
-              context, VacationRequestDetail(vacationRequest, widget.email)),
-        )));
+        ),
+      ),
+    );
   }
 
   Widget availableVacations() {
-    return ListView.builder(
+    return ListView.separated(
         itemCount: employee!.vacationRows.length,
         itemBuilder: (context, index) =>
-            availableVacation(employee!.vacationRows[index]));
+            availableVacation(employee!.vacationRows[index]),
+        separatorBuilder: (BuildContext context, int index) =>
+            const Divider(height: 0, thickness: 1));
   }
 
   Widget availableVacation(AvailableVacation availableVacation) {

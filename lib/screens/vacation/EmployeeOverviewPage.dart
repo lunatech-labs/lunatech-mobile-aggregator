@@ -52,10 +52,11 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
     bool isUser = employee.email == userEmail;
 
     return LunatechListItem(
-      height: 80,
-      color: isUser ? Colors.redAccent : Colors.white,
+      height: isUser ? 120 : 80,
       child: InkWell(
-        child: Center(child: Text(employee.name)),
+        child: Center(child: Text(employee.name, style: TextStyle(
+          fontWeight: isUser ? FontWeight.bold : FontWeight.normal
+        ))),
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => EmployeeDetailPage(email: employee.email))),
       ),
     );
