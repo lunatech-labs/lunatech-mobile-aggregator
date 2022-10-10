@@ -5,7 +5,7 @@ import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:http/http.dart' as http;
 
 class BlogAppService {
-  static const blogUrl = "10.0.2.2:9000";
+  static const blogUrl = "blog.acceptance.lunatech.com";
 
   static final BlogAppService _instance = BlogAppService._internal();
 
@@ -31,7 +31,7 @@ class BlogAppService {
       queryParams["lang"] = lang;
     }
 
-    return http.get(Uri.http(blogUrl, "/api/posts", queryParams))
+    return http.get(Uri.https(blogUrl, "/api/posts", queryParams))
         .then((response) => jsonDecode(response.body) as List<dynamic>)
         .then((json) => json.map((post) => BlogPostOverview.fromJson(post)).toList());
   }
