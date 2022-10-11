@@ -47,8 +47,21 @@ He will be able to see his remaining vacation days, check the status of his vaca
 request new vacations all from this screen. 
 
 ### Lunch App
-TBD
+The Lunch App section of the app will allow the users to reserve a spot for the incoming community meals. Just as the web 
+app, it will also give the opportunity to specify some diet restrictions (even though this setting doesn’t seem to be used at the moment)
+
 ### WIFI Password Reset
-TBD
+Here it will be possible to generate a new password for the LunatechEnterprise network at the press of a button, 
+if possible an option to automatically update the existing network configurations will be added
+
 ### Guides
-TBD
+In this section various guides will be presented to the user. These guides will have a progress 
+bar describing how many tasks are left before completion. Some of the guides that we are planning to implement are:
+
+* [How to survive your first days at Lunatech - Welcome!](https://lunatech.atlassian.net/wiki/spaces/GLOB/pages/1080983595)
+* [Employee last day tasks](https://lunatech.atlassian.net/wiki/spaces/GLOB/pages/6107109)
+
+And some more from: [How to do stuff](https://lunatech.atlassian.net/wiki/spaces/INTRANET/pages/56066122)
+
+Ideally, these guides will be interactive, helping the user to accomplish their task (e.g. clicking o n the “Configure 
+a personal WiFi account” task in "How to survive your first days at Lunatech" will bring you to the wifi section of the app)
