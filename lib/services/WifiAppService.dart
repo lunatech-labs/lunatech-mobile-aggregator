@@ -4,7 +4,7 @@ import 'GoogleService.dart';
 import 'package:http/http.dart' as http;
 
 class WifiAppService {
-  static const _wifiAppUrl = "wifi.lunatech.com";
+  static const _wifiAppUrl = "10.0.2.2:9000";
   static final _wifiAppService = WifiAppService._internal();
 
   Future<String> wifiToken;
@@ -17,7 +17,7 @@ class WifiAppService {
 
   Future<String> generateWifiPassword() {
     return wifiToken
-        .then((token) => http.post(Uri.https(_wifiAppUrl, "/api/authenticate"),
+        .then((token) => http.post(Uri.http(_wifiAppUrl, "/api/wifi"),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               "Authorization": token
@@ -30,7 +30,7 @@ class WifiAppService {
     var accessToken = await GoogleService().getAccessToken();
 
     var token = await http
-        .post(Uri.https(_wifiAppUrl, "/api/authenticate"),
+        .post(Uri.http(_wifiAppUrl, "/api/authenticate"),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
             },

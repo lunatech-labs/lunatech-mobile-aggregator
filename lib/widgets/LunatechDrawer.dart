@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/HomePage.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
 import 'package:flutter_apps/screens/vacation/EmployeeOverviewPage.dart';
+import 'package:flutter_apps/screens/wifi/WifiResetPage.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 
 import '../util/UtilMethods.dart';
@@ -16,9 +17,10 @@ class LunatechDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(child: Text("Menu")),
-          ListTile(title: const Text("Home"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const HomePage())),
-          ListTile(title: const Text("Vacation App"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const EmployeeOverviewPage())),
+          ListTile(title: const Text("Home"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const HomePage(), removeStash: true)),
+          ListTile(title: const Text("Vacation App"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const EmployeeOverviewPage(), removeStash: true)),
           const ListTile(title: Text("Lunch App"), visualDensity: VisualDensity.compact,),
+          ListTile(title: const Text("Wifi Reset"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const WifiResetPage(), removeStash: true)),
           ListTile(title: const Text("Sign Out"), visualDensity: VisualDensity.compact, onTap: () =>
             GoogleService().signOut().then((_) => navigateToPage(context, const SignInPage()))
           )
