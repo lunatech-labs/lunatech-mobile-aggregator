@@ -12,15 +12,15 @@ class VacationAppService {
   static const String _vacationUrl = "vacation.lunatech.nl";
   static const Map<String, String> _defaultQueryParam = {};
 
-  static final VacationAppService _vacationAppService =
-      VacationAppService._internal();
+  static VacationAppService? _vacationAppService;
 
   Future<String> vacationToken;
 
   VacationAppService._internal() : vacationToken = authenticate();
 
   factory VacationAppService() {
-    return _vacationAppService;
+    _vacationAppService ??= VacationAppService._internal();
+    return _vacationAppService!;
   }
 
   static Future<String> authenticate() async {
@@ -77,6 +77,10 @@ class VacationAppService {
         },
         encoding: Encoding.getByName('utf-8'),
         body: updateRequest.toJson()));
+  }
+
+  logout(){
+    _vacationAppService = null;
   }
 
   Future<http.Response> _buildRequest(String endpoint,

@@ -5,14 +5,15 @@ import 'package:http/http.dart' as http;
 
 class WifiAppService {
   static const _wifiAppUrl = "10.0.2.2:9000";
-  static final _wifiAppService = WifiAppService._internal();
+  static WifiAppService? _wifiAppService;
 
   Future<String> wifiToken;
 
   WifiAppService._internal() : wifiToken = authenticate();
 
   factory WifiAppService() {
-    return _wifiAppService;
+    _wifiAppService ??= WifiAppService._internal();
+    return _wifiAppService!;
   }
 
   Future<String> generateWifiPassword() {
@@ -24,6 +25,10 @@ class WifiAppService {
             },
             encoding: Encoding.getByName('utf-8')))
         .then((response) => response.body);
+  }
+
+  logout() {
+    _wifiAppService = null;
   }
 
   static Future<String> authenticate() async {
