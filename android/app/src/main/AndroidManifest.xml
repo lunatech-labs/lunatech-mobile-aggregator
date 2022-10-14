@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.lunatech.flutter_apps">
+    package="nl.lunatech.lunagator">
     <!-- Maybe disable usesCleartextTraffic when working on https -->
     <application
-        android:label="flutter_apps"
+        android:label="Lunagator"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">

@@ -1,4 +1,4 @@
-package nl.lunatech.flutter_apps
+package nl.lunatech.lunagator
 
 import io.flutter.embedding.android.FlutterActivity
 

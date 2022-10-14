@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class GoogleService {
   static final GoogleService _googleService = GoogleService._internal();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"], hostedDomain: "lunatech.nl");
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"]);
 
   GoogleService._internal();
 
