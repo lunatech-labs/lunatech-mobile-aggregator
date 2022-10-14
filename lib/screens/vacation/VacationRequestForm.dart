@@ -6,6 +6,7 @@ import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/vacation_type.dart';
 import '../../widgets/LunatechBackground.dart';
@@ -43,7 +44,7 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
   Widget build(BuildContext context) {
     return loading
         ? const LunatechLoading()
-        : Scaffold(
+        : LunatechScaffold(
             appBar: AppBar(title: const Text("Vacation App")),
             floatingActionButton: actionButton(),
             body: body(),

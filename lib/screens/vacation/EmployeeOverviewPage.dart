@@ -5,6 +5,7 @@ import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/dto/EmployeeOverview.dart';
 import '../../widgets/LunatechDrawer.dart';
@@ -32,9 +33,8 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
   Widget build(BuildContext context) {
     if(loading) _loadData();
 
-    return Scaffold(
+    return LunatechScaffold(
         appBar: AppBar(title: const Text("Vacation App")),
-        drawer: const LunatechDrawer(),
         body: loading ? const LunatechLoading() : _listView());
   }
 

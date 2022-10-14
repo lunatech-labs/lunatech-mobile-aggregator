@@ -8,7 +8,9 @@ import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
+import 'package:flutter_apps/widgets/LunatechDrawer.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../services/GoogleService.dart';
 
@@ -31,7 +33,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
   Widget build(BuildContext context) {
     if (loading) _loadData();
 
-    return Scaffold(
+    return LunatechScaffold(
         appBar: AppBar(title: const Text("Vacation App")),
         floatingActionButton: loading ? null : actionButton(),
         body: loading ? const LunatechLoading() : body());
@@ -91,12 +93,12 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
             length: 2,
             child: Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 50,
-                  child: TabBar(tabs: [
+                  child: TabBar(tabs: const [
                     Tab(icon: Icon(Icons.upcoming, color: Colors.red)),
                     Tab(icon: Icon(Icons.event_available, color: Colors.red))
-                  ]),
+                  ], indicatorColor: Theme.of(context).colorScheme.secondary),
                 ),
                 Expanded(
                   child: TabBarView(

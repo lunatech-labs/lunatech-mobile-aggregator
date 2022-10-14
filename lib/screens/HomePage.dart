@@ -4,9 +4,8 @@ import 'package:flutter_apps/services/BlogAppService.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechListItem.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../widgets/LunatechDrawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,10 +27,9 @@ class HomePageState extends State<HomePage> {
     return loading ? const LunatechLoading() : _body();
   }
 
-  Scaffold _body() {
-    return Scaffold(
+  Widget _body() {
+    return LunatechScaffold(
         appBar: AppBar(title: const Text(HomePage.title)),
-        drawer: const LunatechDrawer(),
         body: LunatechBackground(
           child: ListView.builder(
               itemCount: posts.length,

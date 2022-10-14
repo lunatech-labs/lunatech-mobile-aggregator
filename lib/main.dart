@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
+import 'package:flutter_apps/util/configs.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lunatech Center',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+      theme: lightTheme,
       home: const SignInPage(),
     );
   }

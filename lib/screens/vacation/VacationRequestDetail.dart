@@ -8,6 +8,7 @@ import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
+import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 class VacationRequestDetail extends StatefulWidget {
   const VacationRequestDetail(this.vacation, this.employeeEmail, {super.key});
@@ -37,7 +38,7 @@ class _VacationRequestDetailState extends State<VacationRequestDetail> {
   }
 
   Widget _body() {
-    return Scaffold(
+    return LunatechScaffold(
       appBar: AppBar(title: const Text("Vacation App"), actions: _actions()),
       body: _content(),
     );
