@@ -5,6 +5,8 @@ import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../util/UtilMethods.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -15,11 +17,10 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInState extends State<SignInPage> {
-  bool loading = false;
 
   Future<void> _handleSignIn(BuildContext context) async {
+    LunatechLoading loadingScreen = showLoadingScreen(context);
     try {
-      setState(() => loading = true);
       await GoogleService().signIn().then((_) => Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const HomePage()),
@@ -27,16 +28,13 @@ class _SignInState extends State<SignInPage> {
     } catch (error) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.toString())));
-      setState(() => loading = false);
+      if(!mounted) return;
+      loadingScreen.stopLoading(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return loading ? const LunatechLoading() : body(context);
-  }
-
-  Scaffold body(BuildContext context) {
     return Scaffold(
       body: LunatechBackground(
         child: Center(

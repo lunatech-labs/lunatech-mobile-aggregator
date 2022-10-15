@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
-import 'package:flutter_apps/widgets/LunatechBackground.dart';
-import 'package:flutter_apps/widgets/LunatechListItem.dart';
+import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,54 +16,93 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late List<BlogPostOverview> posts;
-  bool loading = true;
+  List<BlogPostOverview> posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _loadData());
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (loading) _loadData();
 
-    return loading ? const LunatechLoading() : _body();
-  }
-
-  Widget _body() {
     return LunatechScaffold(
         appBar: AppBar(title: const Text(HomePage.title)),
-        body: LunatechBackground(
-          child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) =>
-                  _postOverviewBuilder(posts[index])),
-        ));
+        body: ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) =>
+                _postOverviewBuilder(posts[index])));
   }
 
   Widget _postOverviewBuilder(BlogPostOverview post) {
-    return LunatechListItem(
-      child: InkWell(
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return FractionallySizedBox(
+      widthFactor: 0.92,
+      child: Material(
+        child: InkWell(
+          onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
           child: Container(
-            decoration: BoxDecoration(image: getItemBackgroundImage(post)),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: Align(
-                alignment: Alignment.bottomCenter, child: getItemTextBox(post)),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: const BoxDecoration(
+                boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 3)]),
+            child: Column(
+              children: [_postImage(post), _postContent(post)],
+            ),
           ),
         ),
-        onTap: () => launchUrl(BlogAppService().getPostUrl(post)),
       ),
     );
   }
 
-  Container getItemTextBox(BlogPostOverview post) {
+  Widget _postImage(BlogPostOverview post) {
     return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          color: Colors.black38.withOpacity(0.6),
-          borderRadius: const BorderRadius.all(Radius.circular(5))),
-      child: Text(post.title ?? "No Title",
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+      height: 180,
+      decoration: BoxDecoration(image: getItemBackgroundImage(post)),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+    );
+  }
+
+  Widget _postContent(BlogPostOverview post) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      height: 160,
+      color: Theme.of(context).colorScheme.background,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(post.author ?? "Unknown"),
+                  Text(post.publicationDate ?? "")
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(post.title ?? "No Title",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              Text(
+                post.tags?.reduce((value, element) => "$value, $element") ?? "",
+              )
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text("Read the Post",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary)),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 12,
+                )
+              ],
+            )
+          ]),
     );
   }
 
@@ -76,6 +114,7 @@ class HomePageState extends State<HomePage> {
   }
 
   void _loadData() async {
+    LunatechLoading loadingScreen = showLoadingScreen(context);
     posts = await BlogAppService()
         .getPosts(lang: "en")
         .onError((error, stackTrace) {
@@ -83,6 +122,9 @@ class HomePageState extends State<HomePage> {
           const SnackBar(content: Text("Couldn't connect to Blog App")));
       return List.empty();
     });
-    setState(() => loading = false);
+
+    if(!mounted) return;
+    loadingScreen.stopLoading(context);
+    setState(() {});
   }
 }

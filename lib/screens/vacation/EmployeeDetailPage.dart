@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/status.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestDetail.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
-import 'package:flutter_apps/widgets/LunatechDrawer.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 

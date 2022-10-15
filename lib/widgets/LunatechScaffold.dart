@@ -4,10 +4,7 @@ import 'LunatechDrawer.dart';
 
 class LunatechScaffold extends StatelessWidget {
   LunatechScaffold(
-      {super.key,
-      required this.body,
-      this.appBar,
-      this.floatingActionButton});
+      {super.key, required this.body, this.appBar, this.floatingActionButton});
 
   final AppBar? appBar;
   final Widget body;
