@@ -63,12 +63,11 @@ class LunatechDrawer extends StatelessWidget {
   }
 
   _logout(BuildContext context) {
-    VacationAppService().logout();
-    WifiAppService().logout();
-
-    GoogleService()
-        .signOut()
-        .then((_) => navigateToPage(context, const SignInPage()));
+    GoogleService().signOut().then((_) {
+      VacationAppService.logout();
+      WifiAppService.logout();
+      navigateToPage(context, const SignInPage());
+    });
   }
 
   Widget _header(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_apps/services/WifiAppService.dart';
+import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechDrawer.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
@@ -18,28 +19,23 @@ class WifiResetPage extends StatefulWidget {
 }
 
 class _WifiResetState extends State<WifiResetPage> {
-  bool _loading = false;
-
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? const LunatechLoading()
-        : LunatechScaffold(
-            appBar: AppBar(title: const Text("Wifi Reset")),
-            body: _body(),
-          );
+    return LunatechScaffold(
+      appBar: AppBar(title: const Text("Wifi Reset")),
+      body: _body(),
+    );
   }
 
   Widget _body() {
-    return LunatechBackground(
-        child: SizedBox.expand(
+    return SizedBox.expand(
       child: FractionallySizedBox(
         widthFactor: 0.8,
         heightFactor: 0.7,
         child: Container(
           decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 3)]),
           child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,31 +43,24 @@ class _WifiResetState extends State<WifiResetPage> {
           ),
         ),
       ),
-    ));
+    );
   }
 
   Widget _description() {
     return Container(
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        children: [
+        padding: const EdgeInsets.all(15),
+        child: Column(children: [
           const Text("Wifi Password Generation",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            child: const Text(
-              "By clicking the button below you will trigger the generation of a "
-              "new password for the LunatechEnterprise network. All the devices "
-              "that are using the current one will have to migrate to the new one.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15
-              )
-            )
-          )
-        ]
-      )
-    );
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              child: const Text(
+                  "By clicking the button below you will trigger the generation of a "
+                  "new password for the LunatechEnterprise network. All the devices "
+                  "that are using the current one will have to migrate to the new one.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 15)))
+        ]));
   }
 
   Widget _generateNewPasswordButton() {
@@ -80,33 +69,43 @@ class _WifiResetState extends State<WifiResetPage> {
         child: Container(
             margin: const EdgeInsets.all(30),
             padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: const FractionallySizedBox(
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            child: FractionallySizedBox(
                 widthFactor: 0.8,
                 child: Text("Generate",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w500)))));
   }
 
   _showConfirmationDialog() {
+    Color accentColor = Theme.of(context).colorScheme.secondary;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("Are you sure?"),
+              title: Text(
+                "Are you sure?",
+                style: TextStyle(color: accentColor),
+              ),
               content: const Text(
                   "You'll have to change password to all your devices"),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context, false),
-                    child: const Text("Cancel")),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: accentColor),
+                    )),
                 TextButton(
                     onPressed: () => Navigator.pop(context, true),
-                    child: const Text("Siuu"))
+                    child: Text(
+                      "Siuu",
+                      style: TextStyle(color: accentColor),
+                    ))
               ],
             )).then((response) {
       if (response) _generatePassword();
@@ -114,22 +113,33 @@ class _WifiResetState extends State<WifiResetPage> {
   }
 
   _generatePassword() async {
-    setState(() => _loading = true);
+    final loading = showLoadingScreen(context);
     String newPassword = await WifiAppService().generateWifiPassword();
-    setState(() => _loading = false);
+    if (!mounted) return;
+    loading.stopLoading(context);
 
+    Color accentColor = Theme.of(context).colorScheme.secondary;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("New Password"),
+              title: Text(
+                "New Password",
+                style: TextStyle(color: accentColor),
+              ),
               content: SelectableText(newPassword),
               actions: [
                 TextButton(
                     onPressed: () => _copyToClipboard(newPassword),
-                    child: const Text("Copy to Clipboard")),
+                    child: Text(
+                      "Copy to Clipboard",
+                      style: TextStyle(color: accentColor),
+                    )),
                 TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Close"))
+                    child: Text(
+                      "Close",
+                      style: TextStyle(color: accentColor),
+                    ))
               ],
             ));
   }

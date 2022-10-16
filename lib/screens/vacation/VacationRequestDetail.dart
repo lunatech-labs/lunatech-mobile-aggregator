@@ -45,21 +45,21 @@ class _VacationRequestDetailState extends State<VacationRequestDetail> {
   }
 
   Widget _content() {
-    return LunatechBackground(
-      child: SizedBox.expand(
-        child: FractionallySizedBox(
-          heightFactor: 0.8,
-          widthFactor: 0.9,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: Center(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [_daysSection(), _statusSection()])),
-          ),
+    return SizedBox.expand(
+      child: FractionallySizedBox(
+        heightFactor: 0.8,
+        widthFactor: 0.9,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              boxShadow: const [
+                BoxShadow(blurRadius: 5, color: Colors.black26)
+              ]),
+          child: Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [_daysSection(), _statusSection()])),
         ),
       ),
     );

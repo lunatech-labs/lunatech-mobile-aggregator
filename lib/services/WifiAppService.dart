@@ -27,7 +27,7 @@ class WifiAppService {
         .then((response) => response.body);
   }
 
-  logout() {
+  static logout() {
     _wifiAppService = null;
   }
 

@@ -26,20 +26,22 @@ class EmployeeDetailPage extends StatefulWidget {
 
 class EmployeeDetailState extends State<EmployeeDetailPage> {
   EmployeeDetail? employee;
-  bool loading = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _loadData());
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (loading) _loadData();
-
     return LunatechScaffold(
         appBar: AppBar(title: const Text("Vacation App")),
-        floatingActionButton: loading ? null : actionButton(),
-        body: loading ? const LunatechLoading() : body());
+        floatingActionButton: actionButton(),
+        body: body());
   }
 
   Widget body() {
-    return LunatechBackground(child: Column(children: [overview(), tabView()]));
+    return Column(children: [overview(), tabView()]);
   }
 
   Widget overview() {
@@ -51,7 +53,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
         margin: const EdgeInsets.only(top: 10),
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 3)]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -59,10 +61,10 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(employee!.name!,
+                Text(employee?.name ?? "",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20)),
-                Text(employee!.email!,
+                Text(employee?.email ?? "",
                     style: const TextStyle(fontSize: 14, color: Colors.grey))
               ],
             ),
@@ -71,7 +73,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Remaining Days"),
-                Text(employee!.totalNumberOfDays!,
+                Text(employee?.totalNumberOfDays ?? "",
                     style: const TextStyle(color: Colors.green))
               ],
             )
@@ -82,22 +84,21 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
   }
 
   Widget tabView() {
+    Color tabsColor = Theme.of(context).colorScheme.secondary;
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: const BoxDecoration(color: Colors.white),
         child: DefaultTabController(
             length: 2,
             child: Column(
               children: [
                 SizedBox(
                   height: 50,
-                  child: TabBar(tabs: const [
-                    Tab(icon: Icon(Icons.upcoming, color: Colors.red)),
-                    Tab(icon: Icon(Icons.event_available, color: Colors.red))
-                  ], indicatorColor: Theme.of(context).colorScheme.secondary),
+                  child: TabBar(tabs: [
+                    Tab(icon: Icon(Icons.upcoming, color: tabsColor)),
+                    Tab(icon: Icon(Icons.event_available, color: tabsColor))
+                  ], indicatorColor: tabsColor),
                 ),
                 Expanded(
                   child: TabBarView(
@@ -111,7 +112,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
 
   Widget vacationRequests() {
     return ListView.separated(
-        itemCount: employee!.vacationRequests.length,
+        itemCount: employee?.vacationRequests.length ?? 0,
         itemBuilder: (context, index) =>
             vacationRequest(employee!.vacationRequests[index]),
         separatorBuilder: (BuildContext context, int index) => const Divider(
@@ -138,7 +139,9 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("From: "),
+                          const Text("From: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
                           Text(vacationRequest.formattedFromDate!,
                               style: const TextStyle(
                                   fontSize: 14, color: Colors.grey))
@@ -146,7 +149,9 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Until: "),
+                        const Text("Until: ",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
                         Text(vacationRequest.formattedUntilDate!,
                             style: const TextStyle(
                                 fontSize: 14, color: Colors.grey))
@@ -163,7 +168,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
 
   Widget availableVacations() {
     return ListView.separated(
-        itemCount: employee!.vacationRows.length,
+        itemCount: employee?.vacationRows.length ?? 0,
         itemBuilder: (context, index) =>
             availableVacation(employee!.vacationRows[index]),
         separatorBuilder: (BuildContext context, int index) =>
@@ -216,15 +221,15 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
     return FloatingActionButton(
         onPressed: () =>
             navigateToPage(context, VacationRequestForm(widget.email))
-                .then((value) {
-              setState(() => loading = true);
-              _loadData();
-            }),
+                .then((value) => _loadData()),
         child: const Icon(Icons.add));
   }
 
   void _loadData() async {
+    final loadingScreen = showLoadingScreen(context);
     employee = await VacationAppService().getEmployee(widget.email);
-    setState(() => loading = false);
+    if (!mounted) return;
+    loadingScreen.stopLoading(context);
+    setState(() {});
   }
 }

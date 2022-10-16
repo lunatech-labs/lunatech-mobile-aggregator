@@ -32,21 +32,21 @@ class VacationAppService {
     return "Bearer $token";
   }
 
-  Future<List<EmployeeOverview>> getEmployees() async {
-    return _buildRequest("/api/employees")
+  Future<List<EmployeeOverview>> getEmployees() {
+    return _performRequest("/api/employees")
         .then((response) => jsonDecode(response.body) as List<dynamic>)
         .then((json) => json
             .map((employee) => EmployeeOverview.fromJson(employee))
             .toList());
   }
 
-  Future<EmployeeDetail> getEmployee(String email) async {
-    return _buildRequest("/api/employees/$email")
+  Future<EmployeeDetail> getEmployee(String email) {
+    return _performRequest("/api/employees/$email")
         .then((response) => jsonDecode(response.body) as Map<String, dynamic>)
         .then((json) => EmployeeDetail.fromJson(json));
   }
 
-  Future<http.Response> requestVacation(VacationRequest vacationRequest) async {
+  Future<http.Response> requestVacation(VacationRequest vacationRequest) {
     return vacationToken.then((token) => http.post(
         Uri.https(_vacationUrl, "api/requests"),
         headers: {
@@ -57,7 +57,7 @@ class VacationAppService {
         body: vacationRequest.toJson()));
   }
 
-  Future<http.Response> cancelVacation(String employeeEmail, int vacationId, CancelRequest cancelRequest) async {
+  Future<http.Response> cancelVacation(String employeeEmail, int vacationId, CancelRequest cancelRequest) {
     return vacationToken.then((token) => http.delete(
         Uri.https(_vacationUrl, "api/employees/$employeeEmail/requests/$vacationId"),
         headers: {
@@ -68,7 +68,7 @@ class VacationAppService {
         body: cancelRequest.toJson()));
   }
 
-  Future<http.Response> updateVacation(String employeeEmail, int vacationId, UpdateRequest updateRequest) async {
+  Future<http.Response> updateVacation(String employeeEmail, int vacationId, UpdateRequest updateRequest) {
     return vacationToken.then((token) => http.put(
         Uri.https(_vacationUrl, "api/employees/$employeeEmail/requests/$vacationId"),
         headers: {
@@ -79,11 +79,11 @@ class VacationAppService {
         body: updateRequest.toJson()));
   }
 
-  logout(){
+  static logout(){
     _vacationAppService = null;
   }
 
-  Future<http.Response> _buildRequest(String endpoint,
+  Future<http.Response> _performRequest(String endpoint,
       {Map<String, String> queryParams = _defaultQueryParam}) async {
     return vacationToken.then((token) => http.get(
         Uri.https(_vacationUrl, endpoint, queryParams),

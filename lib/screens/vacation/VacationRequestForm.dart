@@ -52,28 +52,26 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
   }
 
   Widget body() {
-    return LunatechBackground(
-      child: Form(
-          key: _formKey,
-          child: SizedBox.expand(
-            child: FractionallySizedBox(
-              heightFactor: 0.85,
-              widthFactor: 0.85,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [_fromField(), _untilField(), _typeOfVacationField()],
-                  ),
+    return Form(
+        key: _formKey,
+        child: SizedBox.expand(
+          child: FractionallySizedBox(
+            heightFactor: 0.85,
+            widthFactor: 0.85,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                boxShadow: const [BoxShadow(blurRadius: 5, color: Colors.black26)]
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [_fromField(), _untilField(), _typeOfVacationField()],
                 ),
               ),
             ),
-          )),
-    );
+          ),
+        ));
   }
 
   Widget _fromField() {
