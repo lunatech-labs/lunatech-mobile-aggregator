@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_apps/screens/HomePage.dart';
+import 'package:flutter_apps/screens/BlogPage.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
 import 'package:flutter_apps/screens/vacation/EmployeeDetailPage.dart';
 import 'package:flutter_apps/screens/vacation/EmployeeOverviewPage.dart';
@@ -25,7 +25,7 @@ class LunatechDrawer extends StatelessWidget {
             title: const Text("Home"),
             visualDensity: VisualDensity.compact,
             onTap: () =>
-                navigateToPage(context, const HomePage(), removeStash: true)),
+                navigateToPage(context, const BlogPage(), removeStash: true)),
         ExpansionTile(
           title: const Text("Vacation App"),
           children: [

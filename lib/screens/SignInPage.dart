@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
-import 'package:flutter_apps/screens/HomePage.dart';
+import 'package:flutter_apps/screens/BlogPage.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,7 +23,7 @@ class _SignInState extends State<SignInPage> {
     try {
       await GoogleService().signIn().then((_) => Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => const HomePage()),
+          MaterialPageRoute(builder: (_) => const BlogPage()),
           (route) => false));
     } catch (error) {
       ScaffoldMessenger.of(context)

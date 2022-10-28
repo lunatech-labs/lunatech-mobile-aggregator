@@ -6,12 +6,9 @@ class LunatechLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-          backgroundColor: Colors.black.withOpacity(0.4),
-          body: Center(child: SpinKitRing(color: Theme.of(context).colorScheme.background))),
-    );
+    return Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.4),
+        body: Center(child: SpinKitRing(color: Theme.of(context).colorScheme.background)));
   }
 
   stopLoading(BuildContext context){

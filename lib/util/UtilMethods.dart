@@ -27,3 +27,6 @@ formatDate(DateTime dateTime){
   DateFormat dateFormat = DateFormat("dd-MM-yyyy");
   return dateFormat.format(dateTime);
 }
+
+String keepOrShortenString(String value, int length) =>
+    value.length < length ? value : "${value.substring(0, length-2)}...";
