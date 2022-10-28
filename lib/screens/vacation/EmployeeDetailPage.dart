@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
+import 'package:flutter_apps/model/vacation/dto/VacationLog.dart';
 import 'package:flutter_apps/model/vacation/dto/status.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
@@ -26,6 +27,7 @@ class EmployeeDetailPage extends StatefulWidget {
 
 class EmployeeDetailState extends State<EmployeeDetailPage> {
   EmployeeDetail? employee;
+  int? logsYear;
 
   @override
   void initState() {
@@ -90,19 +92,20 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
         margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: const BoxDecoration(color: Colors.white),
         child: DefaultTabController(
-            length: 2,
+            length: 3,
             child: Column(
               children: [
                 SizedBox(
                   height: 50,
                   child: TabBar(tabs: [
                     Tab(icon: Icon(Icons.upcoming, color: tabsColor)),
+                    Tab(icon: Icon(Icons.event_busy, color: tabsColor)),
                     Tab(icon: Icon(Icons.event_available, color: tabsColor))
                   ], indicatorColor: tabsColor),
                 ),
                 Expanded(
                   child: TabBarView(
-                      children: [vacationRequests(), availableVacations()]),
+                      children: [vacationRequests(), pastVacations(), availableVacations()]),
                 )
               ],
             )),
@@ -164,6 +167,48 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
         ),
       ),
     );
+  }
+
+  Widget pastVacations() {
+    return ListView.separated(
+        itemCount: employee?.vacationLogs[logsYear]?.length ?? 0,
+        itemBuilder: (context, index) =>
+            vacationLog(employee!.vacationLogs[logsYear]![index]),
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+          height: 0,
+          thickness: 1,
+        ));
+  }
+
+  Widget vacationLog(VacationLog vacationLog) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child:
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          SizedBox(
+            width: 150,
+            child:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text("From date: ",
+                    style:
+                    TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(vacationLog.formattedFromDate ?? "",
+                    style: const TextStyle(fontSize: 14, color: Colors.grey))
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Number of days: ",
+                      style:
+                      TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                  Text(vacationLog.numberOfVacationDays.toString(),
+                      style: const TextStyle(fontSize: 14, color: Colors.grey))
+                ],
+              )
+            ]),
+          )
+        ]));
   }
 
   Widget availableVacations() {
@@ -228,6 +273,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> {
   void _loadData() async {
     final loadingScreen = showLoadingScreen(context);
     employee = await VacationAppService().getEmployee(widget.email);
+    logsYear = employee?.vacationLogsYears.last;
     if (!mounted) return;
     loadingScreen.stopLoading(context);
     setState(() {});

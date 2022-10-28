@@ -1,3 +1,5 @@
+import '../../util/UtilMethods.dart';
+
 class BlogPostOverview {
   String? publicationDate;
   String? title;
@@ -7,18 +9,28 @@ class BlogPostOverview {
   String? author;
   String? authorName;
   String? authorImg;
+  String? excerpt;
   List<String>? tags;
 
+  String? get reducedExcerpt =>
+    excerpt == null ? null : keepOrShortenString(excerpt!, 100);
+
+  String? get joinedTags => tags?.reduce((value, element) => "$value, $element");
+  String? get reducedJoinedTags =>
+      joinedTags == null ? null : keepOrShortenString(joinedTags!, 100);
+
   BlogPostOverview({
-      this.publicationDate, 
-      this.title, 
-      this.slug, 
-      this.lang, 
-      this.imageUrl, 
-      this.author, 
-      this.authorName, 
-      this.authorImg, 
-      this.tags,});
+    this.publicationDate,
+    this.title,
+    this.slug,
+    this.lang,
+    this.imageUrl,
+    this.author,
+    this.authorName,
+    this.authorImg,
+    this.excerpt,
+    this.tags,
+  });
 
   BlogPostOverview.fromJson(dynamic json) {
     publicationDate = json['publication_date'];
@@ -29,6 +41,7 @@ class BlogPostOverview {
     author = json['author'];
     authorName = json['author_name'];
     authorImg = json['author_img'];
+    excerpt = json['excerpt'];
     tags = json['tags'] != null ? json['tags'].cast<String>() : [];
   }
 
@@ -45,5 +58,4 @@ class BlogPostOverview {
     map['tags'] = tags;
     return map;
   }
-
 }

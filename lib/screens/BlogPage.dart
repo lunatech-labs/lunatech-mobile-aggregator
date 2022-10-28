@@ -6,16 +6,19 @@ import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class BlogPage extends StatefulWidget {
+  const BlogPage({super.key, this.authorNickname, this.authorName});
 
-  static const String title = "LunatechApp";
+  static const String title = "LunaBlog";
+
+  final String? authorNickname;
+  final String? authorName;
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<BlogPage> createState() => BlogPageState();
 }
 
-class HomePageState extends State<HomePage> {
+class BlogPageState extends State<BlogPage> {
   List<BlogPostOverview> posts = [];
 
   @override
@@ -26,9 +29,10 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return LunatechScaffold(
-        appBar: AppBar(title: const Text(HomePage.title)),
+        appBar: AppBar(
+            title: Text(
+                widget.authorName ?? widget.authorNickname ?? BlogPage.title)),
         body: ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) =>
@@ -65,7 +69,7 @@ class HomePageState extends State<HomePage> {
   Widget _postContent(BlogPostOverview post) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 160,
+      height: 190,
       color: Theme.of(context).colorScheme.background,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +79,13 @@ class HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(post.author ?? "Unknown"),
+                  GestureDetector(
+                      onTap: () => navigateToPage(
+                          context,
+                          BlogPage(
+                              authorNickname: post.authorName,
+                              authorName: post.author)),
+                      child: Text(post.author ?? "Unknown")),
                   Text(post.publicationDate ?? "")
                 ],
               ),
@@ -85,21 +95,31 @@ class HomePageState extends State<HomePage> {
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold)),
               ),
-              Text(
-                post.tags?.reduce((value, element) => "$value, $element") ?? "",
-              )
+              Text(post.reducedExcerpt ?? ""),
             ]),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Read the Post",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary)),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.secondary,
-                  size: 12,
-                )
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    post.reducedJoinedTags ?? "",
+                    style: TextStyle(fontSize: 10),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Read the Post",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary)),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Theme.of(context).colorScheme.secondary,
+                      size: 12,
+                    )
+                  ],
+                ),
               ],
             )
           ]),
@@ -116,14 +136,14 @@ class HomePageState extends State<HomePage> {
   void _loadData() async {
     LunatechLoading loadingScreen = showLoadingScreen(context);
     posts = await BlogAppService()
-        .getPosts(lang: "en")
+        .getPosts(lang: "en", author: widget.authorNickname)
         .onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Couldn't connect to Blog App")));
       return List.empty();
     });
 
-    if(!mounted) return;
+    if (!mounted) return;
     loadingScreen.stopLoading(context);
     setState(() {});
   }

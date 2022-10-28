@@ -32,7 +32,7 @@ class BlogAppService {
     }
 
     return http.get(Uri.https(blogUrl, "/api/posts", queryParams))
-        .then((response) => jsonDecode(response.body) as List<dynamic>)
+        .then((response) => jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>)
         .then((json) => json.map((post) => BlogPostOverview.fromJson(post)).toList());
   }
 
