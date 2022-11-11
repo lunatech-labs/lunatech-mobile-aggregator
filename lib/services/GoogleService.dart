@@ -1,9 +1,13 @@
+import 'package:flutter_apps/util/secureconfigs.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleService {
   static final GoogleService _googleService = GoogleService._internal();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"]);
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId: iosClientId,
+      scopes: ["email"]
+  );
 
   GoogleService._internal();
 
