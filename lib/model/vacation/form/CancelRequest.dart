@@ -5,7 +5,7 @@ class CancelRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      "reason": reason,
+      "reason": reason ?? "",
     };
   }
 }

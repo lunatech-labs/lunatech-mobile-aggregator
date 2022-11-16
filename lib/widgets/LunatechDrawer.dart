@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/BlogPage.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
-import 'package:flutter_apps/screens/vacation/EmployeeDetailPage.dart';
-import 'package:flutter_apps/screens/vacation/EmployeeOverviewPage.dart';
+import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
+import 'package:flutter_apps/screens/vacation/VacationEmployeesOverview.dart';
 import 'package:flutter_apps/screens/wifi/WifiResetPage.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';

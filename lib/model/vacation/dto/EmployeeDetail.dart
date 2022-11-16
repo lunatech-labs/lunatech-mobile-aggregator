@@ -20,13 +20,14 @@ class EmployeeDetail {
   String? fullTime;
   bool isAdmin;
   String? totalNumberOfDays;
-  List<AvailableVacation> vacationRows;
+
   List<RequestedVacation> vacationRequests;
+  List<AvailableVacation> vacationRows;
   Map<int, List<VacationLog>> vacationLogs;
 
   List<int> get vacationLogsYears {
     var years = vacationLogs.keys.toList();
-    years.sort();
+    years.sort((a, b) => b.compareTo(a));
     return years;
   }
 
