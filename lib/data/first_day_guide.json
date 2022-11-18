@@ -1,0 +1,61 @@
+{
+  "name": "First day at Lunatech",
+  "id": "first_day_guide",
+  "data": [
+    {
+      "id": 1,
+      "title": "Welcome to office",
+      "detail": "Someone will welcome you on your first day and will show you around. You will receive a laptop and keys/badges/cards."
+    },
+    {
+      "id": 2,
+      "title": "Configure your Macbook",
+      "detail": "Configure your Macbook and collect other accessories such as a mouse and keyboard. If you have received any new items in a box, please dispose of the cardboard. Ask someone to show you."
+    },
+    {
+      "id": 3,
+      "title": "Configure a personal WiFi account",
+      "detail": "Configure a personal WiFi account, first connect to the guest WiFi network LunatechGuest, next browse to https://wifi.lunatech.com login with your Lunatech Google account and generate new credentials. Use those credentials to login to the Wifi network LunatechEnterprise"
+    },
+    {
+      "id": 4,
+      "title": "Create a Personal Space on Confluence",
+      "detail": "Create a Personal Space on Confluence (you can look this up in Internet) and COPY the Personal Checklist. This checklist is to be used during your onboarding period."
+    },
+    {
+      "id": 5,
+      "title": "Introducing yourself",
+      "detail": "introducing yourself to the rest of the company: create a About me page in your Personal Space on confluence. Use the confluence template page About me for that. Send a slack to everyone to point to this page."
+    },
+    {
+      "id": 6,
+      "title": "Turn on FileVault",
+      "detail": "Turn on FileVault and iCloud/Find My Mac on your new Macbook (System Preferences | Security & Privacy | FileVault and System Preferences | iCloud | Find My Mac). This is mandatory. See our Laptop security policy"
+    },
+    {
+      "id": 7,
+      "title": "Install a password manager",
+      "detail": "Install a password manager and start using it. See our Password policy."
+    },
+    {
+      "id": 8,
+      "title": "Log in to Slack",
+      "detail": "Log in to Slack with team lunatechlabs using your Lunatech Google account and fill in your full name in the settings so that people can find you. You may choose your own username. Join the various channels"
+    },
+    {
+      "id": 9,
+      "title": "",
+      "detail": "Fill in the https://lunch.lunatech.nl/"
+    },
+    {
+      "id": 10,
+      "title": "Career Framework",
+      "detail": "Get familiarised with the Career Framework so you can discuss it with your mentor"
+    },
+    {
+      "id":11,
+      "title": "Naming convention in Lunatech",
+      "detail": "Get familiarised with our Naming convention in Lunatech and adhere to it"
+    }
+  ]
+}

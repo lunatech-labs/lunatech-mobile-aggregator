@@ -56,6 +56,7 @@ flutter:
 
   assets:
     - lib/static/
+    - lib/data/
 
 flutter_icons:
   image_path_android: "lib/static/logo-lunatech.png"
