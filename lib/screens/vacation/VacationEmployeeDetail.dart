@@ -1,18 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/AvailableVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/EmployeeDetail.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
 import 'package:flutter_apps/model/vacation/dto/VacationLog.dart';
 import 'package:flutter_apps/model/vacation/dto/status.dart';
-import 'package:flutter_apps/model/vacation/form/VacationRequest.dart';
-import 'package:flutter_apps/screens/vacation/VacationRequestDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationRequestForm.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
-import 'package:flutter_apps/widgets/LunatechBackground.dart';
-import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/form/CancelRequest.dart';
@@ -237,11 +231,21 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
         SizedBox(
           height: 50,
           child: ListView.builder(scrollDirection: Axis.horizontal,
-            itemCount: employee!.vacationLogsYears.length,
-            itemBuilder: (context, index) => TextButton(
+            itemCount: employee?.vacationLogsYears.length ?? 0,
+            itemBuilder: (context, index) {
+              final text = Text(employee!.vacationLogsYears[index].toString());
+              final selected = logsYear == employee!.vacationLogsYears[index];
+              return TextButton(
                 onPressed: () => setState(() => logsYear = employee!.vacationLogsYears[index]),
-                child: Text(employee!.vacationLogsYears[index].toString()))
-          ),
+                child: !selected ? text : Container(
+                    padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 7),
+                    decoration: const BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    child: text
+                ));
+          }),
         ),
         Expanded(
           child: ListView.separated(
@@ -353,7 +357,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
     final loadingScreen = showLoadingScreen(context);
     employee = await VacationAppService().getEmployee(widget.email);
 
-    logsYear = employee!.vacationLogsYears.last;
+    logsYear = employee!.vacationLogsYears.first;
     expandedVacationsRequests = employee!.vacationRequests.map((e) => false).toList();
 
     if (!mounted) return;
