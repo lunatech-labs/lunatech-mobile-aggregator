@@ -17,6 +17,7 @@ class LunatechScaffold extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: appBar,
+      backgroundColor: Theme.of(context).backgroundColor,
       drawer: isDrawerOpen() || isRoot(context) ? const LunatechDrawer() : null,
       floatingActionButton: floatingActionButton,
       body: body,

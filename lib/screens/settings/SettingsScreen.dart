@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_apps/model/settings/AppSettings.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -17,7 +18,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(title: const Text("Settings")),
         body: ListView(
           shrinkWrap: true,
-          children: const [ListTile(title: Text("Test"))],
+          children: [
+            ListTile(
+                title: const Text("Dark Mode"),
+                trailing: Switch(
+                  value: AppSettings().themeMode == ThemeMode.dark,
+                  onChanged: (value) {
+                    AppSettings().switchThemeMode();
+                    setState(() {});
+                  }))
+          ],
         ));
   }
 }
