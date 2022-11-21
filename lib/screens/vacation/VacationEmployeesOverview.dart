@@ -3,13 +3,9 @@ import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
-import 'package:flutter_apps/widgets/LunatechBackground.dart';
-import 'package:flutter_apps/widgets/LunatechListItem.dart';
-import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/dto/EmployeeOverview.dart';
-import '../../widgets/LunatechDrawer.dart';
 
 class EmployeeOverviewPage extends StatefulWidget {
   const EmployeeOverviewPage({super.key});

@@ -73,7 +73,7 @@ class LunatechDrawer extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: SvgPicture.asset("lib/static/logo-lunatech.svg",
+                child: SvgPicture.asset("lib/static/logo-lunatech-black.svg",
                     height: 70, width: 70),
               ),
               ListTile(

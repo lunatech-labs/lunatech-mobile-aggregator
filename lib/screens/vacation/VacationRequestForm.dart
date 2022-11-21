@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/vacation/dto/RequestedVacation.dart';
 import 'package:flutter_apps/model/vacation/form/UpdateRequest.dart';
 import 'package:flutter_apps/model/vacation/form/VacationRequest.dart';
-import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/vacation_type.dart';
-import '../../widgets/LunatechBackground.dart';
 
 class VacationRequestForm extends StatefulWidget {
   const VacationRequestForm(this.employeeEmail, {super.key, this.vacation});
