@@ -24,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 trailing: Switch(
                   value: AppSettings().themeMode == ThemeMode.dark,
                   onChanged: (value) {
-                    AppSettings().switchThemeMode();
+                    AppSettings().setThemeMode(value ? ThemeMode.dark : ThemeMode.light);
                     setState(() {});
                   }))
           ],

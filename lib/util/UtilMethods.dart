@@ -30,3 +30,10 @@ formatDate(DateTime dateTime){
 
 String keepOrShortenString(String value, int length) =>
     value.length < length ? value : "${value.substring(0, length-2)}...";
+
+ThemeMode? themeModeFromName(String? name) {
+  for(var mode in ThemeMode.values) {
+    if(mode.name == name) return mode;
+  }
+  return null;
+}
