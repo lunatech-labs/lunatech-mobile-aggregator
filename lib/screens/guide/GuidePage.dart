@@ -7,6 +7,7 @@ import 'package:flutter_apps/model/guide/GuideItem.dart';
 import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechDrawer.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -25,13 +26,16 @@ class GuidePageState extends State<GuidePage> {
   late Guide guide;
   bool isLoading = true;
 
+
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('lib/data/${widget.guideId}.json');
     final data = await json.decode(response);
-
-
+    Guide tmp = Guide.fromJson(data);
+    final prefs = await SharedPreferences.getInstance();
+    List<String> selectedIds = prefs.getStringList(widget.guideId) ?? [];
+    for (var id in selectedIds) {tmp.items[id]?.done = true;}
     setState(() {
-      guide = Guide.fromJson(data);
+      guide = tmp;
       isLoading = false;
     });
   }
@@ -62,7 +66,7 @@ class GuidePageState extends State<GuidePage> {
       drawer: const LunatechDrawer(),
       body: ListView.builder(
           itemCount: guide.items.length,
-          itemBuilder: (context, index) => _guideListBuilder(guide.items[index]))
+          itemBuilder: (context, index) => _guideListBuilder(guide.items[index + 1]!))
     );
   }
 
@@ -81,6 +85,7 @@ class GuidePageState extends State<GuidePage> {
                 setState(() {
                   guideItem.done = true;
                 });
+                saveGuideItem(guideItem);
           }),
           Expanded(
             child: Column(
@@ -97,6 +102,17 @@ class GuidePageState extends State<GuidePage> {
 
   _handleOnclick() {
     // TODO
+  }
+
+  void saveGuideItem(GuideItem item) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> ids = prefs.getStringList(widget.guideId) ?? [];
+    if(item.done) {
+      ids.add(item.id.toString());
+    } else {
+      ids.remove(item.id.toString());
+    }
+    prefs.setStringList(widget.guideId, ids);
   }
 
 }
