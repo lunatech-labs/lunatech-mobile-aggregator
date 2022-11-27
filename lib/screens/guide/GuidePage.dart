@@ -24,6 +24,9 @@ class GuidePage extends StatefulWidget{
 class GuidePageState extends State<GuidePage> {
   
   late Guide guide;
+  int selected = 0;
+  int total = 1;
+  double progress = 0.0;
   bool isLoading = true;
 
 
@@ -31,11 +34,17 @@ class GuidePageState extends State<GuidePage> {
     final String response = await rootBundle.loadString('lib/data/${widget.guideId}.json');
     final data = await json.decode(response);
     Guide tmp = Guide.fromJson(data);
+
     final prefs = await SharedPreferences.getInstance();
     List<String> selectedIds = prefs.getStringList(widget.guideId) ?? [];
-    for (var id in selectedIds) {tmp.items[id]?.done = true;}
+    for (String id in selectedIds) {
+      tmp.items[int.parse(id)]?.done = true;
+    }
     setState(() {
       guide = tmp;
+      selected = selectedIds.length;
+      total = tmp.items.length;
+      progress = selected / total;
       isLoading = false;
     });
   }
@@ -61,29 +70,38 @@ class GuidePageState extends State<GuidePage> {
   }
 
   Scaffold _body() {
+    List<Widget> list = [];
+    list.add(_progressIndicator());
+    guide.items.forEach((key, value) {list.add(_guideListBuilder(value));});
     return Scaffold(
       appBar: AppBar(title: Text(guide.name)),
       drawer: const LunatechDrawer(),
       body: ListView.builder(
-          itemCount: guide.items.length,
-          itemBuilder: (context, index) => _guideListBuilder(guide.items[index + 1]!))
+          itemCount: list.length,
+          itemBuilder: (context, index) => list[index])
     );
+  }
+
+  Widget _progressIndicator() {
+    Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    return LinearProgressIndicator(value: (progress), semanticsLabel: 'Progress Indicator',color: secondaryColor,);
   }
 
   Widget _guideListBuilder(GuideItem guideItem) {
     Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    Color backgroundColor = Theme.of(context).colorScheme.background;
     return Card(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Checkbox(
               checkColor: secondaryColor,
-              fillColor: MaterialStateColor.resolveWith((states) => Colors.white),
+              fillColor: MaterialStateColor.resolveWith((states) => backgroundColor),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
               side: MaterialStateBorderSide.resolveWith((states) => BorderSide(color: secondaryColor, width: 1)),
-              value: guideItem?.done , onChanged: (bool? value) {
+              value: guideItem.done , onChanged: (bool? value) {
                 setState(() {
-                  guideItem.done = true;
+                  guideItem.done = value!;
                 });
                 saveGuideItem(guideItem);
           }),
@@ -113,6 +131,10 @@ class GuidePageState extends State<GuidePage> {
       ids.remove(item.id.toString());
     }
     prefs.setStringList(widget.guideId, ids);
+    setState(() {
+      selected = ids.length;
+      progress = selected/total;
+    });
   }
 
 }
