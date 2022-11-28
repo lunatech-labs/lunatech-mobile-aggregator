@@ -4,21 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_apps/model/guide/Guide.dart';
 import 'package:flutter_apps/model/guide/GuideItem.dart';
-import 'package:flutter_apps/widgets/LunatechBackground.dart';
 import 'package:flutter_apps/widgets/LunatechDrawer.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class GuidePage extends StatefulWidget{
-  GuidePage({super.key, required this.guideId});
+  const GuidePage({super.key, required this.guideId});
 
-  String guideId;
+  final String guideId;
 
   @override
   State<StatefulWidget> createState() => GuidePageState();
-
 }
 
 class GuidePageState extends State<GuidePage> {
@@ -28,7 +23,6 @@ class GuidePageState extends State<GuidePage> {
   int total = 1;
   double progress = 0.0;
   bool isLoading = true;
-
 
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('lib/data/${widget.guideId}.json');
@@ -60,7 +54,7 @@ class GuidePageState extends State<GuidePage> {
     if(isLoading) {
       return _loading();
     }
-    return _body();
+    return _container();
   }
 
   Scaffold _loading() {
@@ -69,22 +63,32 @@ class GuidePageState extends State<GuidePage> {
     );
   }
 
-  Scaffold _body() {
-    List<Widget> list = [];
-    list.add(_progressIndicator());
-    guide.items.forEach((key, value) {list.add(_guideListBuilder(value));});
+  Scaffold _container() {
+
     return Scaffold(
       appBar: AppBar(title: Text(guide.name)),
       drawer: const LunatechDrawer(),
-      body: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) => list[index])
+      body: _body(),
     );
+  }
+
+  Widget _body() {
+    return Column(children: [_progressIndicator(), _guideList()],);
   }
 
   Widget _progressIndicator() {
     Color secondaryColor = Theme.of(context).colorScheme.secondary;
     return LinearProgressIndicator(value: (progress), semanticsLabel: 'Progress Indicator',color: secondaryColor,);
+  }
+
+  Widget _guideList() {
+    List<Widget> list = [];
+    guide.items.forEach((key, value) {list.add(_guideListBuilder(value));});
+    return Expanded(
+      child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) => list[index]),
+    );
   }
 
   Widget _guideListBuilder(GuideItem guideItem) {
@@ -99,27 +103,23 @@ class GuidePageState extends State<GuidePage> {
               fillColor: MaterialStateColor.resolveWith((states) => backgroundColor),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
               side: MaterialStateBorderSide.resolveWith((states) => BorderSide(color: secondaryColor, width: 1)),
-              value: guideItem.done , onChanged: (bool? value) {
-                setState(() {
-                  guideItem.done = value!;
-                });
-                saveGuideItem(guideItem);
-          }),
+              value: guideItem.done , onChanged: (bool? value) => _handleOnclick(value, guideItem)),
           Expanded(
-            child: Column(
-              children: [
-                Text(guideItem.title),
+            child: Container(
+              margin: const EdgeInsets.all(12.0),
+              child:
                 Text(guideItem.detail)
-              ],
-            ),
-          )
+            ))
         ],
       ),
     );
   }
 
-  _handleOnclick() {
-    // TODO
+  _handleOnclick(bool? value, GuideItem item) {
+    setState(() {
+      item.done = value!;
+    });
+    saveGuideItem(item);
   }
 
   void saveGuideItem(GuideItem item) async {
