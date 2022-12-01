@@ -1,0 +1,36 @@
+{
+  "name": "Last day at Lunatech",
+  "id": "last_day_guide",
+  "data": [
+    {
+      "id": 1,
+      "title": "Commit and push code.",
+      "detail": "Commit and push code."
+    },
+    {
+      "id": 2,
+      "title": "Send an email to hostmaster@lunatech.com",
+      "detail": "Send an email to hostmaster@lunatech.com with a picture of the setup screen of your MacBook and be sure to include the serial number (apple menu → about this Mac)"
+    },
+    {
+      "id": 3,
+      "title": "Clean and reset your MacBook before handing it in",
+      "detail": "Clean and reset your MacBook before handing it in"
+    },
+    {
+      "id": 4,
+      "title": "Clear desk.",
+      "detail": "Clear desk."
+    },
+    {
+      "id": 5,
+      "title": "Hand in keys, laptop, travel card, and your locker key",
+      "detail": "Hand in keys, laptop, travel card, and your locker key if you had one, and all other accessories such as keyboard, mouse, ghost stand etc."
+    },
+    {
+      "id": 6,
+      "title": "Have a drink with your colleagues ",
+      "detail": "Have a drink with your colleagues "
+    }
+  ]
+}

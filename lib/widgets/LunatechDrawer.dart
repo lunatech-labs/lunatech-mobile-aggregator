@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/blog/BlogPage.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
+import 'package:flutter_apps/screens/guide/GuidePage.dart';
 import 'package:flutter_apps/screens/settings/SettingsScreen.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeesOverview.dart';
@@ -55,7 +56,24 @@ class LunatechDrawer extends StatelessWidget {
             title: const Text("Wifi Reset"),
             visualDensity: VisualDensity.compact,
             onTap: () => navigateToPage(context, const WifiResetPage(),
-                removeStash: true))
+                removeStash: true)),
+        ExpansionTile(
+          title: const Text("Guides"),
+          children: [
+            ListTile(
+                title: const Text("First Day guide"),
+                visualDensity: VisualDensity.compact,
+                onTap: () => navigateToPage(
+                  context, GuidePage(guideId: 'first_day_guide',),
+                  removeStash: true,)),
+            ListTile(
+                title: const Text("Last Day guide"),
+                visualDensity: VisualDensity.compact,
+                onTap:() => navigateToPage(
+                  context, GuidePage(guideId: 'last_day_guide',),
+                  removeStash: true,)),
+          ],
+        ),
       ],
     ));
   }
