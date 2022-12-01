@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
+import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
@@ -29,8 +30,10 @@ class BlogPageState extends State<BlogPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(GoogleService().getAccount().displayName ?? "No display name");
     return LunatechScaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
             title: Text(
                 widget.authorName ?? widget.authorNickname ?? BlogPage.title)),
         body: ListView.builder(

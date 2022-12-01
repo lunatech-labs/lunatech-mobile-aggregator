@@ -23,7 +23,7 @@ class LunatechDrawer extends StatelessWidget {
         child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        _header2(context),
+        _header(context),
         ListTile(
             title: const Text("Home"),
             visualDensity: VisualDensity.compact,
@@ -31,6 +31,9 @@ class LunatechDrawer extends StatelessWidget {
                 navigateToPage(context, const BlogPage(), removeStash: true)),
         ExpansionTile(
           title: const Text("Vacation App"),
+          iconColor: Theme.of(context).colorScheme.onBackground,
+          collapsedIconColor: Theme.of(context).colorScheme.onBackground,
+          textColor: Theme.of(context).colorScheme.onBackground,
           children: [
             ListTile(
                 title: const Text("Employees Overview"),
@@ -59,6 +62,9 @@ class LunatechDrawer extends StatelessWidget {
                 removeStash: true)),
         ExpansionTile(
           title: const Text("Guides"),
+          iconColor: Theme.of(context).colorScheme.onBackground,
+          collapsedIconColor: Theme.of(context).colorScheme.onBackground,
+          textColor: Theme.of(context).colorScheme.onBackground,
           children: [
             ListTile(
                 title: const Text("First Day guide"),
@@ -78,7 +84,7 @@ class LunatechDrawer extends StatelessWidget {
     ));
   }
 
-  Widget _header2(BuildContext context) {
+  Widget _header(BuildContext context) {
     const expandablePanelTheme =
         ExpandableThemeData(tapHeaderToExpand: true, hasIcon: false, iconColor: Colors.white);
 
@@ -98,7 +104,7 @@ class LunatechDrawer extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(GoogleService().getAccount().displayName!,
+                  Text(GoogleService().getAccount().displayName ?? GoogleService().getAccount().email,
                       style: const TextStyle(color: Colors.white)),
                   ExpandableIcon(theme: expandablePanelTheme)
                 ],

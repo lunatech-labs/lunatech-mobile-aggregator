@@ -62,9 +62,6 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
         height: 100,
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(top: 10),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 3)]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -99,7 +96,6 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
-        decoration: const BoxDecoration(color: Colors.white),
         child: DefaultTabController(
             length: 3,
             child: Column(
@@ -140,6 +136,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
 
   ExpansionPanel vacationRequest(RequestedVacation vacationRequest, bool expanded) {
     return ExpansionPanel(
+      backgroundColor: Theme.of(context).backgroundColor,
       headerBuilder: (context, isExpanded) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: vacationRequestHeader(vacationRequest)),

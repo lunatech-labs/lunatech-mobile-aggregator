@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/settings/AppSettings.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
+import 'package:flutter_apps/screens/debug/PlaygroundScreen.dart';
 import 'package:flutter_apps/util/configs.dart';
 
 void main() {
@@ -28,8 +29,8 @@ class MyAppState extends State<MyApp> {
     WidgetsFlutterBinding.ensureInitialized();
     return MaterialApp(
       title: 'Lunatech Center',
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: lightTheme2,
+      darkTheme: darkTheme2,
       themeMode: AppSettings().themeMode,
       home: const SignInPage(),
     );
