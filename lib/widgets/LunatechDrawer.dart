@@ -6,7 +6,6 @@ import 'package:flutter_apps/screens/guide/GuidePage.dart';
 import 'package:flutter_apps/screens/settings/SettingsScreen.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeesOverview.dart';
-import 'package:flutter_apps/screens/wifi/WifiResetPage.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/services/WifiAppService.dart';
@@ -55,11 +54,6 @@ class LunatechDrawer extends StatelessWidget {
           title: Text("Lunch App"),
           visualDensity: VisualDensity.compact,
         ),
-        ListTile(
-            title: const Text("Wifi Reset"),
-            visualDensity: VisualDensity.compact,
-            onTap: () => navigateToPage(context, const WifiResetPage(),
-                removeStash: true)),
         ExpansionTile(
           title: const Text("Guides"),
           iconColor: Theme.of(context).colorScheme.onBackground,
