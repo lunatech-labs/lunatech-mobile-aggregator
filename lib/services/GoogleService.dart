@@ -24,4 +24,5 @@ class GoogleService {
   Future<String> getAccessToken() async => getAuthentication().then((authentication) => authentication.accessToken!);
 
   bool isUser(String email) => email == getAccount().email;
+  Future<bool> isSignedIn() async => _googleSignIn.isSignedIn();
 }

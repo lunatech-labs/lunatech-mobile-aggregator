@@ -32,6 +32,15 @@ class _SignInState extends State<SignInPage> {
     }
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    GoogleService().isSignedIn().then((signedIn) {
+      if (signedIn) _handleSignIn(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
