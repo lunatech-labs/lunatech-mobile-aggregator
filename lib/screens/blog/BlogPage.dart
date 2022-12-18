@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
@@ -21,6 +22,7 @@ class BlogPage extends StatefulWidget {
 
 class BlogPageState extends State<BlogPage> {
   List<BlogPostOverview> posts = [];
+  Image placeholder = Image.asset("lib/static/logo-lunatech.png");
 
   @override
   void initState() {
@@ -30,7 +32,6 @@ class BlogPageState extends State<BlogPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(GoogleService().getAccount().displayName ?? "No display name");
     return LunatechScaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -63,16 +64,22 @@ class BlogPageState extends State<BlogPage> {
 
   Widget _postImage(BlogPostOverview post) {
     return Container(
-      height: 180,
-      decoration: BoxDecoration(image: getItemBackgroundImage(post)),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-    );
+        height: 180,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        child: post.imageUrl != null
+            ? CachedNetworkImage(
+                imageUrl: post.imageUrl!,
+                placeholder: (_, __) => placeholder,
+                errorWidget: (_, __, ___) => placeholder,
+                fit: BoxFit.fill)
+            : placeholder);
   }
 
   Widget _postContent(BlogPostOverview post) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 190,
+      constraints: const BoxConstraints(minHeight: 190),
       color: Theme.of(context).colorScheme.background,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +105,9 @@ class BlogPageState extends State<BlogPage> {
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold)),
               ),
-              Text(post.reducedExcerpt ?? ""),
+              SizedBox(
+                  height: 90,
+                  child: Text(post.excerpt ?? "", overflow: TextOverflow.ellipsis, maxLines: 4)),
             ]),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +116,9 @@ class BlogPageState extends State<BlogPage> {
                   width: 200,
                   child: Text(
                     post.reducedJoinedTags ?? "",
-                    style: TextStyle(fontSize: 10),
+                    style: const TextStyle(fontSize: 10),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
                 Row(
@@ -127,13 +138,6 @@ class BlogPageState extends State<BlogPage> {
             )
           ]),
     );
-  }
-
-  // Find a way to cache images, currently it's calling every time you scroll on a tile
-  DecorationImage? getItemBackgroundImage(BlogPostOverview post) {
-    return post.imageUrl != null
-        ? DecorationImage(image: NetworkImage(post.imageUrl!), fit: BoxFit.fill)
-        : null;
   }
 
   void _loadData() async {
