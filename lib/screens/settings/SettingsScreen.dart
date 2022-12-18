@@ -33,6 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
               title: const Text("Dark Mode"),
               trailing: Switch(
+                activeColor: Theme.of(context).colorScheme.secondary,
                 value: AppSettings().themeMode == ThemeMode.dark,
                 onChanged: (value) {
                   AppSettings().setThemeMode(value ? ThemeMode.dark : ThemeMode.light);

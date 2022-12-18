@@ -1,7 +1,9 @@
 import 'package:expandable/expandable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/screens/blog/BlogPage.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
+import 'package:flutter_apps/screens/debug/PlaygroundScreen.dart';
 import 'package:flutter_apps/screens/guide/GuidePage.dart';
 import 'package:flutter_apps/screens/settings/SettingsScreen.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
@@ -74,6 +76,10 @@ class LunatechDrawer extends StatelessWidget {
                   removeStash: true,)),
           ],
         ),
+        if(kDebugMode) ListTile(
+          title: const Text("Debug"),
+          onTap: () => navigateToPage(context, const PlaygroundScreen()),
+        )
       ],
     ));
   }

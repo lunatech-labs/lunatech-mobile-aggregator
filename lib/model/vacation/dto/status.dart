@@ -18,7 +18,7 @@ extension StatusExtension on Status {
     }
   }
 
-  Color get color {
+  Color get backgroundColor {
     switch(this) {
       case Status.requested:
         return Colors.black12;

@@ -214,16 +214,31 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
   TextFormField dateFormField(TextEditingController controller) {
     return TextFormField(
         controller: controller,
-        decoration: const InputDecoration(
-          icon: Icon(Icons.calendar_month),
-        ),
+        decoration: InputDecoration(
+            icon: Icon(Icons.calendar_month,
+                color: Theme.of(context).colorScheme.secondary),
+            enabledBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.secondary)),
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.secondary))),
         readOnly: true,
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(const Duration(days: 365)));
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              builder: ((context, child) {
+                final themeData = Theme.of(context);
+                return Theme(
+                    data: themeData.copyWith(textButtonTheme: TextButtonThemeData(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white, // button text color
+                    ))),
+                    child: child!);
+              }));
 
           if (pickedDate != null) {
             setState(() {

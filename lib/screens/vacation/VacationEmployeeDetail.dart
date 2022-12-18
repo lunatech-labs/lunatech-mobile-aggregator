@@ -28,6 +28,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
   int? logsYear;
   List<bool> expandedVacationsRequests = [];
   late TabController _tabController;
+  bool _isUser = false;
 
   @override
   void initState() {
@@ -178,30 +179,43 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
           )
         ]),
         ),
-      Text(vacationRequest.status!.value,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: vacationRequest.status!.color))
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          color: vacationRequest.status!.backgroundColor,
+        ),
+        child: Text(vacationRequest.status!.value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
+      )
       ]);
   }
 
   Widget vacationRequestBody(RequestedVacation vacationRequest) {
     return Column(children: [
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const Text("Approved By: ",
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        Text(vacationRequest.approvedBy ?? "")
-      ]),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("Reason: ",
+      Container(
+        margin: const EdgeInsets.only(bottom: 5),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          const Text("Approved By: ",
               style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(vacationRequest.reason ?? "")
-        ],
+          Text(vacationRequest.approvedBy ?? "")
+        ]),
       ),
-      vacationRequest.status == Status.cancelled ? Container() : vacationRequestActions(vacationRequest)
+      Container(
+        margin: const EdgeInsets.only(bottom: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Reason: ",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(vacationRequest.reason ?? "")
+          ],
+        ),
+      ),
+      if(_isUser && vacationRequest.status != Status.cancelled) vacationRequestActions(vacationRequest)
     ]);
   }
 
@@ -236,9 +250,9 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
                 onPressed: () => setState(() => logsYear = employee!.vacationLogsYears[index]),
                 child: !selected ? text : Container(
                     padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 7),
-                    decoration: const BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).brightness == Brightness.light ? Colors.black12 : Colors.white12,
+                        borderRadius: const BorderRadius.all(Radius.circular(10))
                     ),
                     child: text
                 ));
@@ -339,7 +353,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
 
   // Service calls
   Widget? actionButton() {
-    if (widget.email != GoogleService().getAccount().email) {
+    if (_isUser) {
       return null;
     }
 
@@ -353,6 +367,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
   void _loadData() async {
     final loadingScreen = showLoadingScreen(context);
     employee = await VacationAppService().getEmployee(widget.email);
+    _isUser = GoogleService().isUser(widget.email);
 
     logsYear = employee!.vacationLogsYears.first;
     expandedVacationsRequests = employee!.vacationRequests.map((e) => false).toList();

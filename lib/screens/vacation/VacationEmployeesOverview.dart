@@ -52,7 +52,8 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
                       onSubmitted: _filterEmployees,
                       decoration: const InputDecoration(
                           hintText: 'Search for employee',
-                          prefixIcon: Icon(Icons.search)),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.search, color: Colors.grey)),
                     )))),
           ),
           SliverList(
