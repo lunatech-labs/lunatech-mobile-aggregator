@@ -59,9 +59,20 @@ flutter:
     - lib/static/
     - lib/data/
 
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: lib/static/fonts/Roboto-Medium.ttf
+
+# To generate icons
+# flutter pub get
+# flutter pub run flutter_launcher_icons
 flutter_icons:
-  image_path_android: "lib/static/logo-lunatech.png"
+  image_path: "lib/static/logo-lunatech.png"
   android: true
+  ios: true
+  remove_alpha_ios: true
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

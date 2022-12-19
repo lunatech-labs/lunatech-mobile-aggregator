@@ -7,6 +7,7 @@ import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key, this.authorNickname, this.authorName});

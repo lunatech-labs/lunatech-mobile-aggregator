@@ -5,7 +5,7 @@ import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:http/http.dart' as http;
 
 class BlogAppService {
-  static const blogUrl = "blog.acceptance.lunatech.com";
+  static const blogUrl = "blog.lunatech.com";
 
   static final BlogAppService _instance = BlogAppService._internal();
 
@@ -37,6 +37,6 @@ class BlogAppService {
   }
 
   Uri getPostUrl(BlogPostOverview post) {
-    return Uri.http(blogUrl, post.slug!);
+    return Uri.https(blogUrl, post.slug!);
   }
 }
