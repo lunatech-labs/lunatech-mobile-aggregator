@@ -233,10 +233,13 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
               builder: ((context, child) {
                 final themeData = Theme.of(context);
                 return Theme(
-                    data: themeData.copyWith(textButtonTheme: TextButtonThemeData(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white, // button text color
-                    ))),
+                    data: themeData.copyWith(
+                        colorScheme: themeData.colorScheme.copyWith(
+                            onPrimary: Colors.black, primary: Colors.white),
+                        textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(
+                          foregroundColor: themeData.colorScheme.secondary, // button text color
+                        ))),
                     child: child!);
               }));
 

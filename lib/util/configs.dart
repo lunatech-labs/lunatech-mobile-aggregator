@@ -22,5 +22,8 @@ final darkTheme2 = ThemeData.from(
             Typography.material2021(platform: TargetPlatform.android).white)
     .copyWith(
         textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(foregroundColor: const Color(0xFFEA212E))),
-        unselectedWidgetColor: Colors.white);
+            style:
+                TextButton.styleFrom(foregroundColor: const Color(0xFFEA212E))),
+        unselectedWidgetColor: Colors.white,
+        toggleableActiveColor: const Color(0xFFEA212E)
+);
