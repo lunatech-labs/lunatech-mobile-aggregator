@@ -21,13 +21,18 @@ class BlogPage extends StatefulWidget {
 }
 
 class BlogPageState extends State<BlogPage> {
+  final Image placeholder = Image.asset("lib/static/logo-lunatech.png");
+  final ScrollController _controller = ScrollController();
+
+  int _page = 1;
+  bool _loading = true;
   List<BlogPostOverview> posts = [];
-  Image placeholder = Image.asset("lib/static/logo-lunatech.png");
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _loadData());
+    _controller.addListener(_scrollListener);
   }
 
   @override
@@ -38,6 +43,7 @@ class BlogPageState extends State<BlogPage> {
             title: Text(
                 widget.authorName ?? widget.authorNickname ?? BlogPage.title)),
         body: ListView.builder(
+            controller: _controller,
             itemCount: posts.length,
             itemBuilder: (context, index) =>
                 _postOverviewBuilder(posts[index])));
@@ -141,17 +147,26 @@ class BlogPageState extends State<BlogPage> {
   }
 
   void _loadData() async {
+    _loading = true;
     LunatechLoading loadingScreen = showLoadingScreen(context);
-    posts = await BlogAppService()
-        .getPosts(lang: "en", author: widget.authorNickname)
+    posts.addAll(await BlogAppService()
+        .getPosts(lang: "en", author: widget.authorNickname, page: _page)
         .onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Couldn't connect to Blog App")));
       return List.empty();
-    });
+    }));
 
     if (!mounted) return;
     loadingScreen.stopLoading(context);
     setState(() {});
+    _loading = false;
+  }
+
+  void _scrollListener() {
+    if(!_loading && _controller.position.extentAfter < 300) {
+      _page++;
+      _loadData();
+    }
   }
 }
