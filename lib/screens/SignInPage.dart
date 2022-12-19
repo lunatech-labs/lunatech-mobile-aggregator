@@ -43,17 +43,20 @@ class _SignInState extends State<SignInPage> {
   Widget build(BuildContext context) {
     var backgroundColor = Theme.of(context).colorScheme.primary;
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [backgroundColor, backgroundColor.withOpacity(0.8)],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: const [0.3, 1])),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [_lunatechLogo(), _googleSignInButton(context)],
+      body: ColoredBox(
+        color: Colors.white,
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [backgroundColor, backgroundColor.withOpacity(0.6)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: const [0.3, 1])),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [_lunatechLogo(), _googleSignInButton(context)],
+            ),
           ),
         ),
       ),
@@ -68,13 +71,13 @@ class _SignInState extends State<SignInPage> {
         children: [
           SvgPicture.asset("lib/static/logo-lunatech.svg",
               height: 120, width: 120),
-          const Text("LUNATECH", style: TextStyle(
-            fontSize: 50,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: "Roboto",
-            letterSpacing: 3
-          ))
+          const Text("LUNATECH",
+              style: TextStyle(
+                  fontSize: 50,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Roboto",
+                  letterSpacing: 3))
         ],
       ),
     );
