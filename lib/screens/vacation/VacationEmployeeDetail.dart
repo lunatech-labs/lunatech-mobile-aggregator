@@ -53,7 +53,14 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
   }
 
   Widget body() {
-    return Column(children: [overview(), tabView()]);
+    return RefreshIndicator(
+        onRefresh: _loadData,
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).colorScheme.secondary,
+        child: SingleChildScrollView(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(children: [overview(), tabView()]))));
   }
 
   Widget overview() {
@@ -353,7 +360,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
 
   // Service calls
   Widget? actionButton() {
-    if (_isUser) {
+    if (!_isUser) {
       return null;
     }
 
@@ -364,7 +371,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
         child: const Icon(Icons.add));
   }
 
-  void _loadData() async {
+  Future<void> _loadData() async {
     final loadingScreen = showLoadingScreen(context);
     employee = await VacationAppService().getEmployee(widget.email);
     _isUser = GoogleService().isUser(widget.email);

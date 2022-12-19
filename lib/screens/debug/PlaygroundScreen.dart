@@ -43,18 +43,23 @@ class _PlaygroundScreen extends State<PlaygroundScreen>
             width: 30,
           ),
           SizedBox(
-            height: 200,
-            width: 200,
-            child: GestureDetector(
-              onTap: () => setState(() {}),
-              child: AnimatedContainer(
-                  height: 200,
-                  width: 200,
-                  duration: const Duration(milliseconds: 4000),
-                  color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0)),
-            ),
+            height: 300,
+            child: RefreshIndicator(
+                onRefresh: test,
+                child: ListView(children: const [
+                  ColoredBox(
+                      color: Colors.red,
+                      child: SizedBox(height: 100, width: 300)),
+                  ColoredBox(
+                      color: Colors.grey,
+                      child: SizedBox(height: 100, width: 300)),
+                ])),
           )
         ]));
+  }
+
+  Future<void> test() async {
+    print("Test");
+    return Future.delayed(const Duration(seconds: 2));
   }
 }
