@@ -63,8 +63,8 @@ class _SignInState extends State<SignInPage> {
     );
   }
 
-  Container _lunatechLogo() {
-    return Container(
+  Widget _lunatechLogo() {
+    return SizedBox(
       height: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
