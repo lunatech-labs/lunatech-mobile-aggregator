@@ -73,7 +73,6 @@ class BlogPageState extends State<BlogPage> {
     return Container(
         height: 180,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         child: post.imageUrl != null
             ? CachedNetworkImage(
                 imageUrl: post.imageUrl!,
