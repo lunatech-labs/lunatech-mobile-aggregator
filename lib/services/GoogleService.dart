@@ -17,7 +17,7 @@ class GoogleService {
     return _googleService;
   }
 
-  Future<void> signIn() => _googleSignIn.signIn();
+  Future<bool> signIn() => _googleSignIn.signIn().then((_) => _googleSignIn.isSignedIn());
   Future<void> signOut() => _googleSignIn.signOut();
   GoogleSignInAccount getAccount() => _googleSignIn.currentUser!;
   Future<GoogleSignInAuthentication> getAuthentication() async => getAccount().authentication;

@@ -112,7 +112,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
                   height: 50,
                   child: TabBar(tabs: [
                     Tab(child: Text("Requested", style: TextStyle(color: tabsColor))),
-                    Tab(child: Text("Passed", style: TextStyle(color: tabsColor))),
+                    Tab(child: Text("Past", style: TextStyle(color: tabsColor))),
                     Tab(child: Text("Available", style: TextStyle(color: tabsColor)))
                   ], indicatorColor: tabsColor, controller: _tabController),
                 ),
@@ -171,7 +171,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
                         fontSize: 14, fontWeight: FontWeight.bold)),
                 Text(vacationRequest.formattedFromDate!,
                     style: const TextStyle(
-                        fontSize: 14, color: Colors.grey))
+                        fontSize: 14))
               ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,7 +181,7 @@ class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderS
                   fontSize: 14, fontWeight: FontWeight.bold)),
               Text(vacationRequest.formattedUntilDate!,
                   style: const TextStyle(
-                      fontSize: 14, color: Colors.grey))
+                      fontSize: 14))
             ],
           )
         ]),

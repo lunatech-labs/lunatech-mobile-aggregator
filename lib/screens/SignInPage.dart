@@ -19,10 +19,17 @@ class _SignInState extends State<SignInPage> {
   Future<void> _handleSignIn(BuildContext context) async {
     LunatechLoading loadingScreen = showLoadingScreen(context);
     try {
-      await GoogleService().signIn().then((_) => Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const BlogPage()),
-          (route) => false));
+      await GoogleService().signIn()
+          .then((signedIn) {
+        if (signedIn) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const BlogPage()),
+                  (route) => false);
+        } else if(mounted) {
+          loadingScreen.stopLoading(context);
+        }
+      });
     } catch (error) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.toString())));

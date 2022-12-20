@@ -44,7 +44,7 @@ class EmployeeDetail {
             .map(RequestedVacation.fromJson).toList(),
         vacationLogs = {
           for (var v in json['vacationLogs'] as List<dynamic>)
-            v[0]: (v[1] as List<dynamic>).map(VacationLog.fromJson).toList()
+            v[0]: (v[1] as List<dynamic>?)?.map(VacationLog.fromJson).toList() ?? []
         };
 
   Map<String, dynamic> toJson() {
