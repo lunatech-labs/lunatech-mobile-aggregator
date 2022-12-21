@@ -44,6 +44,5 @@ app.*.map.json
 /android/app/release
 
 *.jks
-android/gradle.properties
 setup_files
 lib/util/secureconfigs.dart
