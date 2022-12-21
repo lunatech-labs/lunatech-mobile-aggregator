@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/settings/AppSettings.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
 import 'package:flutter_apps/screens/debug/PlaygroundScreen.dart';
+import 'package:flutter_apps/screens/externalTools/ExternalToolsPage.dart';
 import 'package:flutter_apps/util/configs.dart';
 
 void main() {
