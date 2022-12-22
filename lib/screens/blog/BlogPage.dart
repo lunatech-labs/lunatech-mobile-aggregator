@@ -2,12 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_apps/model/blog/BlogPostOverview.dart';
 import 'package:flutter_apps/services/BlogAppService.dart';
-import 'package:flutter_apps/services/GoogleService.dart';
 import 'package:flutter_apps/util/UtilMethods.dart';
 import 'package:flutter_apps/widgets/LunatechLoading.dart';
 import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key, this.authorNickname, this.authorName});
