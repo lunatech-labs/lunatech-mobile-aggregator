@@ -49,7 +49,7 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
                     color: Colors.white,
                     child: Center(
                         child: TextField(
-                      onSubmitted: _filterEmployees,
+                      onChanged: _filterEmployees,
                       style: const TextStyle(
                         color: Colors.black
                       ),
