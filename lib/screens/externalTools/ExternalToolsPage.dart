@@ -30,7 +30,8 @@ class ExternalToolsPage extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () => launchUrlString(
-            Platform.isAndroid ? externalTool.androidUrl : externalTool.iosUrl),
+            Platform.isAndroid ? externalTool.androidUrl : externalTool.iosUrl,
+        mode: LaunchMode.externalApplication),
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: Column(

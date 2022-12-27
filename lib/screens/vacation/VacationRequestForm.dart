@@ -80,7 +80,10 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
           child: Column(
             children: [
               const Text("From Date"),
-              dateFormField(fromDateController)
+              dateFormField(fromDateController,
+                  toDate: untilDateController.text.isNotEmpty
+                      ? baseDateFormat.parse(untilDateController.text)
+                      : null)
             ],
           )),
     );
@@ -94,7 +97,10 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
           child: Column(
             children: [
               const Text("Until Date"),
-              dateFormField(untilDateController)
+              dateFormField(untilDateController,
+                  fromDate: fromDateController.text.isNotEmpty
+                      ? baseDateFormat.parse(fromDateController.text)
+                      : null)
             ],
           )),
     );
@@ -211,7 +217,12 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
     });
   }
 
-  TextFormField dateFormField(TextEditingController controller) {
+  TextFormField dateFormField(TextEditingController controller,
+      {DateTime? fromDate, DateTime? toDate}) {
+    DateTime? initialDate = controller.text.isNotEmpty
+        ? baseDateFormat.parse(controller.text)
+        : null;
+
     return TextFormField(
         controller: controller,
         decoration: InputDecoration(
@@ -227,9 +238,9 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(const Duration(days: 365)),
+              initialDate: initialDate ?? fromDate ?? DateTime.now(),
+              firstDate: fromDate ?? DateTime.now(),
+              lastDate: toDate ?? DateTime.now().add(const Duration(days: 365)),
               builder: ((context, child) {
                 final themeData = Theme.of(context);
                 return Theme(

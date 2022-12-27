@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_apps/model/settings/AppSettings.dart';
 import 'package:flutter_apps/screens/SignInPage.dart';
 import 'package:flutter_apps/screens/debug/PlaygroundScreen.dart';
@@ -22,6 +23,9 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     AppSettings().addListener(() => setState((){}));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
   }
 
   // This widget is the root of your application.

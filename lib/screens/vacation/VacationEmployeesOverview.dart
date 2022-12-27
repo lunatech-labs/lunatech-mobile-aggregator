@@ -50,6 +50,9 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
                     child: Center(
                         child: TextField(
                       onSubmitted: _filterEmployees,
+                      style: const TextStyle(
+                        color: Colors.black
+                      ),
                       decoration: const InputDecoration(
                           hintText: 'Search for employee',
                           hintStyle: TextStyle(color: Colors.grey),

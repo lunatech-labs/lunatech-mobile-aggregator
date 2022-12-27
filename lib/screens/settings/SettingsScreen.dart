@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: TextStyle(color: accentColor),
           ),
           content: const Text(
-              "You'll have to change password to all your devices"),
+              "You'll have to change the password on all your devices"),
           actions: [
             TextButton(
                 onPressed: () => Navigator.pop(context, false),
