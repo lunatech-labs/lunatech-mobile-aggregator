@@ -1,0 +1,52 @@
+[
+    {
+        "menuUuid": "90e2b691-0e6d-48b9-b78e-bb60be2a9fda",
+        "menuPerDayUuid": "96686d6f-5934-4125-bfcd-f70198b7f7d2",
+        "name": "Caterer",
+        "date": 1669939200000,
+        "location": "Rotterdam",
+        "attending": true,
+        "attendees": 26,
+        "availableDishes": [
+            {
+                "uuid": "2f3d54ff-f413-4239-a295-5ffdc9c4fc4c",
+                "name": "to be defined ",
+                "description": "to be defined",
+                "isVegetarian": false,
+                "isHalal": false,
+                "hasSeaFood": false,
+                "hasPork": false,
+                "hasBeef": false,
+                "hasChicken": false,
+                "isGlutenFree": false,
+                "hasLactose": false,
+                "isDeleted": false
+            }
+        ]
+    },
+    {
+        "menuUuid": "90e2b691-0e6d-48b9-b78e-bb60be2a9fda",
+        "menuPerDayUuid": "c36d88d3-635d-44b2-b3ad-4ec280e9577a",
+        "name": "Caterer",
+        "date": 1670371200000,
+        "location": "Amsterdam",
+        "attending": false,
+        "attendees": 0,
+        "availableDishes": [
+            {
+                "uuid": "2f3d54ff-f413-4239-a295-5ffdc9c4fc4c",
+                "name": "to be defined ",
+                "description": "to be defined",
+                "isVegetarian": false,
+                "isHalal": false,
+                "hasSeaFood": false,
+                "hasPork": false,
+                "hasBeef": false,
+                "hasChicken": false,
+                "isGlutenFree": false,
+                "hasLactose": false,
+                "isDeleted": false
+            }
+        ]
+    }
+]

@@ -7,22 +7,22 @@ import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 
 import '../../model/vacation/dto/EmployeeOverview.dart';
 
-class EmployeeOverviewPage extends StatefulWidget {
-  const EmployeeOverviewPage({super.key});
+class VacationEmployeesOverviewPage extends StatefulWidget {
+  const VacationEmployeesOverviewPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _EmployeeOverviewState();
+    return _VacationEmployeeOverviewState();
   }
 }
 
-class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
+class _VacationEmployeeOverviewState extends State<VacationEmployeesOverviewPage> {
   List<EmployeeOverview> employeesList = [];
   List<EmployeeOverview> filteredEmployees = [];
 
   late String userEmail;
 
-  _EmployeeOverviewState() {
+  _VacationEmployeeOverviewState() {
     userEmail = GoogleService().getAccount().email;
   }
 
@@ -99,7 +99,7 @@ class _EmployeeOverviewState extends State<EmployeeOverviewPage> {
                   context,
                   MaterialPageRoute(
                       builder: (_) =>
-                          EmployeeDetailPage(email: employee.email))),
+                          VacationEmployeeDetailPage(email: employee.email))),
             ),
           ),
         ),
