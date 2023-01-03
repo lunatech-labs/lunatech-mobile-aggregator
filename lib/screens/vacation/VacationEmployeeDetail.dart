@@ -12,18 +12,18 @@ import 'package:flutter_apps/widgets/LunatechScaffold.dart';
 import '../../model/vacation/form/CancelRequest.dart';
 import '../../services/GoogleService.dart';
 
-class EmployeeDetailPage extends StatefulWidget {
-  const EmployeeDetailPage({super.key, required this.email});
+class VacationEmployeeDetailPage extends StatefulWidget {
+  const VacationEmployeeDetailPage({super.key, required this.email});
 
   final String email;
 
   @override
   State<StatefulWidget> createState() {
-    return EmployeeDetailState();
+    return VacationEmployeeDetailState();
   }
 }
 
-class EmployeeDetailState extends State<EmployeeDetailPage> with TickerProviderStateMixin {
+class VacationEmployeeDetailState extends State<VacationEmployeeDetailPage> with TickerProviderStateMixin {
   EmployeeDetail? employee;
   int? logsYear;
   List<bool> expandedVacationsRequests = [];

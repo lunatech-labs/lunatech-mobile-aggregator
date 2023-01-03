@@ -6,6 +6,7 @@ import 'package:flutter_apps/screens/SignInPage.dart';
 import 'package:flutter_apps/screens/debug/PlaygroundScreen.dart';
 import 'package:flutter_apps/screens/externalTools/ExternalToolsPage.dart';
 import 'package:flutter_apps/screens/guide/GuidePage.dart';
+import 'package:flutter_apps/screens/lunch/LunchOverviewPage.dart';
 import 'package:flutter_apps/screens/settings/SettingsScreen.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeesOverview.dart';
@@ -26,11 +27,7 @@ class LunatechDrawer extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         _header(context),
-        ListTile(
-            title: const Text("Home"),
-            visualDensity: VisualDensity.compact,
-            onTap: () =>
-                navigateToPage(context, const BlogPage(), removeStash: true)),
+        ListTile(title: const Text("Home"), visualDensity: VisualDensity.compact, onTap: () => navigateToPage(context, const BlogPage(), removeStash: true)),
         ExpansionTile(
           title: const Text("Vacation App"),
           iconColor: Theme.of(context).colorScheme.onBackground,
@@ -40,22 +37,17 @@ class LunatechDrawer extends StatelessWidget {
             ListTile(
                 title: const Text("Employees Overview"),
                 visualDensity: VisualDensity.compact,
-                onTap: () => navigateToPage(
-                    context, const EmployeeOverviewPage(),
-                    removeStash: true)),
+                onTap: () => navigateToPage(context, const VacationEmployeesOverviewPage(), removeStash: true)),
             ListTile(
                 title: const Text("Personal Page"),
                 visualDensity: VisualDensity.compact,
-                onTap: () => navigateToPage(
-                    context,
-                    EmployeeDetailPage(
-                        email: GoogleService().getAccount().email),
-                    removeStash: true))
+                onTap: () => navigateToPage(context, VacationEmployeeDetailPage(email: GoogleService().getAccount().email), removeStash: true))
           ],
         ),
-        const ListTile(
-          title: Text("Lunch App"),
+        ListTile(
+          title: const Text("Lunch App"),
           visualDensity: VisualDensity.compact,
+          onTap: () => navigateToPage(context, const LunchOverviewPage(), removeStash: true),
         ),
         ExpansionTile(
           title: const Text("Guides"),
@@ -85,11 +77,7 @@ class LunatechDrawer extends StatelessWidget {
                     )),
           ],
         ),
-        ListTile(
-            title: const Text("External Tools"),
-            onTap: () => navigateToPage(context,
-                const ExternalToolsPage(),
-                removeStash: true)),
+        ListTile(title: const Text("External Tools"), onTap: () => navigateToPage(context, const ExternalToolsPage(), removeStash: true)),
         if (kDebugMode)
           ListTile(
             title: const Text("Debug"),
@@ -100,8 +88,7 @@ class LunatechDrawer extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) {
-    const expandablePanelTheme = ExpandableThemeData(
-        tapHeaderToExpand: true, hasIcon: false, iconColor: Colors.white);
+    const expandablePanelTheme = ExpandableThemeData(tapHeaderToExpand: true, hasIcon: false, iconColor: Colors.white);
 
     return ExpandablePanel(
         header: Container(
@@ -112,17 +99,13 @@ class LunatechDrawer extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: SvgPicture.asset("lib/static/logo-lunatech-black.svg",
-                    height: 70, width: 70),
+                child: SvgPicture.asset("lib/static/logo-lunatech-black.svg", height: 70, width: 70),
               ),
               ListTile(
                   title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      GoogleService().getAccount().displayName ??
-                          GoogleService().getAccount().email,
-                      style: const TextStyle(color: Colors.white)),
+                  Text(GoogleService().getAccount().displayName ?? GoogleService().getAccount().email, style: const TextStyle(color: Colors.white)),
                   ExpandableIcon(theme: expandablePanelTheme)
                 ],
               ))
@@ -134,12 +117,8 @@ class LunatechDrawer extends StatelessWidget {
           ListTile(
               title: const Text("Settings"),
               visualDensity: VisualDensity.compact,
-              onTap: () => navigateToPage(context, const SettingsScreen(),
-                  removeStash: true)),
-          ListTile(
-              title: const Text("Sign Out"),
-              visualDensity: VisualDensity.compact,
-              onTap: () => _logout(context)),
+              onTap: () => navigateToPage(context, const SettingsScreen(), removeStash: true)),
+          ListTile(title: const Text("Sign Out"), visualDensity: VisualDensity.compact, onTap: () => _logout(context)),
           const Divider()
         ]),
         theme: expandablePanelTheme);
