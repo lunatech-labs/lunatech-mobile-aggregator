@@ -246,7 +246,8 @@ class _VacationRequestFormStatus extends State<VacationRequestForm> {
                 return Theme(
                     data: themeData.copyWith(
                         colorScheme: themeData.colorScheme.copyWith(
-                            onPrimary: Colors.black, primary: Colors.white),
+                            onPrimary: themeData.brightness == Brightness.dark ? Colors.black : Colors.white,
+                            primary: themeData.brightness == Brightness.dark ? Colors.white : themeData.colorScheme.secondary),
                         textButtonTheme: TextButtonThemeData(
                             style: TextButton.styleFrom(
                           foregroundColor: themeData.colorScheme.secondary, // button text color
