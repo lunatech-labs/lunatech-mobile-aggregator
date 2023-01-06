@@ -11,6 +11,7 @@ import 'package:flutter_apps/screens/settings/SettingsScreen.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeeDetail.dart';
 import 'package:flutter_apps/screens/vacation/VacationEmployeesOverview.dart';
 import 'package:flutter_apps/services/GoogleService.dart';
+import 'package:flutter_apps/services/LunchAppService.dart';
 import 'package:flutter_apps/services/VacationAppService.dart';
 import 'package:flutter_apps/services/WifiAppService.dart';
 import 'package:flutter_svg/svg.dart';
@@ -128,6 +129,7 @@ class LunatechDrawer extends StatelessWidget {
     GoogleService().signOut().then((_) {
       VacationAppService.logout();
       WifiAppService.logout();
+      LunchAppService.logout();
       navigateToPage(context, const SignInPage(), removeStash: true);
     });
   }

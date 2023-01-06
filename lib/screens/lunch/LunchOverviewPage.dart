@@ -75,47 +75,59 @@ class _LunchOverviewPageState extends State<LunchOverviewPage> {
       padding: const EdgeInsets.all(10),
       height: 190,
       color: Theme.of(context).colorScheme.background,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              padding: const EdgeInsets.all(15),
-              child: Column(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(event.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  if (event.attending)
-                    const Text(
-                      "✔️ Going ",
-                      style: TextStyle(fontSize: 10),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Text(event.name,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        if (event.attending)
+                          const Text(
+                            "✔️ Going ",
+                            style: TextStyle(fontSize: 10),
+                          ),
+                      ],
                     ),
-                ],
-              ),
+                  ),
+                  SizedBox(
+                    child: Text(
+                      _getEventDietaryOptions(event).dietaryEmojis(),
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                ]),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(event.location),
+                          Text(event.formattedDate),
+                        ]),
+                    SizedBox(
+                      child: Text(
+                        "👥 ${event.attendees}",
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                    ),
+                  ]),
             ),
           ]),
-          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            SizedBox(
-              child: Text(
-                _getEventDietaryOptions(event).dietaryEmojis(),
-                style: const TextStyle(fontSize: 10),
-              ),
-            ),
-          ]),
-        ]),
-        Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
-          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text(event.location),
-            Text(event.formattedDate),
-          ]),
-          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            SizedBox(
-              child: Text(
-                "👥 ${event.attendees}",
-                style: const TextStyle(fontSize: 10),
-              ),
-            ),
-          ]),
-        ]),
-      ]),
     );
   }
 
